@@ -1,12 +1,13 @@
-# サンプル（プロダクト名）
+# Title「革靴メンテナンス/自動bot」
 
 [![IMAGE ALT TEXT HERE](https://jphacks.com/wp-content/uploads/2023/07/JPHACKS2023_ogp.png)](https://www.youtube.com/watch?v=yYRQEdfGjEg)
 
-## 製品概要
+## 製品概要　
+
 ### 背景(製品開発のきっかけ、課題等）
 ### 製品説明（具体的な製品の説明）
-### 特長
-#### 1. 特長1
+### 特長 
+#### 1. 特長1 
 #### 2. 特長2
 #### 3. 特長3
 
