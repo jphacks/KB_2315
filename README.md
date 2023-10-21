@@ -28,7 +28,7 @@
 * 
 
 ## 開発技術
-[![My Skills](https://skillicons.dev/icons?i=aws)](https://skillicons.dev)
+[![My Skills](https://skillicons.dev/icons?i=cpp, github, git, python)](https://skillicons.dev)
 
 ### 活用した技術
 
