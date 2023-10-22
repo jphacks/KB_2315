@@ -32,7 +32,7 @@
 * 「革靴の状態を把握」できる点
 
 ## 開発技術
-[![My Skills](https://skillicons.dev/icons?i=cpp, python, git, postman, aws)](https://skillicons.dev)
+<img src="./icons/CPP.svg" width="48"> <img src="./icons/Python.svg" width="48"> <img src="./icons/Postman.svg" width="48"> <img src="./icons/Git.svg" width="48"> <img src="./icons/GithubActions-Dark.svg" width="48">
 
 ### 活用した技術
 
