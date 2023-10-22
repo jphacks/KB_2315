@@ -28,13 +28,13 @@
 * 
 
 ## 開発技術
-[![My Skills](https://skillicons.dev/icons?i=cpp, github, git, python&perline=3)](https://skillicons.dev)
+[![My Skills](https://skillicons.dev/icons?i=cpp)](https://skillicons.dev)
 
 ### 活用した技術
 
 #### API・データ
 * Weather API
-* 
+* LINE Message API
 
 #### フレームワーク・ライブラリ・モジュール
 * 
