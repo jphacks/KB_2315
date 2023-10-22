@@ -18,17 +18,21 @@
 #### 3. 特長3：革靴の置き場所を把握できる
 
 ### 解決出来ること
+* 革靴の匂いを自然に解消できる
+* 革靴の型を崩さない
+* 革靴の状態を把握できる
+* 革靴を履いた日を把握できる
 * 
 
 ### 今後の展望
 
 
 ### 注力したこと（こだわり等）
-* 
-* 
+* 「革靴本来の匂い * 型を崩さない」の両方を実現できる点
+* 「革靴の状態を把握」できる点
 
 ## 開発技術
-[![My Skills](https://skillicons.dev/icons?i=cpp)](https://skillicons.dev)
+[![My Skills](https://skillicons.dev/icons?i=cpp, python, git, postman, aws)](https://skillicons.dev)
 
 ### 活用した技術
 
@@ -41,7 +45,8 @@
 * 
 
 #### デバイス
-* 
+* DHT22
+* ESP32
 * 
 
 ### 独自技術
