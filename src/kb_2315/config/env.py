@@ -11,4 +11,4 @@ class env:
     line_channel_access_token: str = ""
     line_channel_secret: str = ""
     line_group_id: str = ""
-    host_url :str = ""
+    host_url: str = ""
