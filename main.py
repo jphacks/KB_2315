@@ -1,12 +1,10 @@
 import json
-from pathlib import Path
 import sys
+from pathlib import Path
 from typing import Literal, cast
-from fastapi.exceptions import RequestValidationError
-from fastapi.responses import JSONResponse
 
 import uvicorn
-from fastapi import FastAPI, HTTPException, Request, status
+from fastapi import FastAPI, HTTPException, Request
 from linebot.v3.exceptions import InvalidSignatureError
 from linebot.v3.messaging import AsyncApiClient, AsyncMessagingApi, Configuration
 from linebot.v3.webhook import WebhookParser
@@ -45,19 +43,21 @@ parser = WebhookParser(channel_secret)
 async def get_sensor(item: schemas.machine) -> None:
     print(item)
 
-
     with open(Path(__file__).parent / "tmp.json", mode="r") as f:
         j = json.load(f)
 
         print(j)
 
-
         if str(item.id) in j.keys():
             match (j[str(item.id)], item.status):
                 case (False, True):
-                    notify.line.send_message(message=f"靴 {item.id} がセットされました")
+                    notify.line.send_message(
+                        message=f"靴 {item.id} がセットされました",
+                    )
                 case (True, False):
-                    notify.line.send_message(message=f"靴 {item.id} の乾燥が完了しました\nシューキーパーを入れてください")
+                    notify.line.send_message(
+                        message=f"靴 {item.id} の乾燥が完了しました\nシューキーパーを入れてください",
+                    )
 
         j[str(item.id)] = item.status
 
