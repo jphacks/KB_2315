@@ -39,7 +39,7 @@
 <img src="./icons/CPP.svg" width="48"> <img src="./icons/Python-Dark.svg" width="48"> <img src="./icons/Postman.svg" width="48"> <img src="./icons/Git.svg" width="48"> <img src="./icons/GithubActions-Dark.svg" width="48">
 
 ### 活用した技術
-
+*　
 
 #### API・データ
 * Weather API
@@ -52,7 +52,7 @@
 #### デバイス
 * DHT22
 * ESP32
-* 
+* M5stack
 
 ### 独自技術
 #### ハッカソンで開発した独自機能・技術
