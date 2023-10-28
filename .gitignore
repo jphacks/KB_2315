@@ -1,4 +1,5 @@
 config.toml
+compose.yml
 
 **.pio
 **.vscode/.browse.c_cpp.db*
