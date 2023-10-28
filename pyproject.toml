@@ -6,6 +6,9 @@ authors = [{ name = "kb_2135", email = "kb_2315@example.com" }]
 dependencies = [
     "toml>=0.10.2",
     "requests>=2.31.0",
+    "fastapi>=0.104.0",
+    "uvicorn>=0.23.2",
+    "line-bot-sdk>=3.5.0",
 ]
 readme = "README.md"
 requires-python = ">= 3.11"
