@@ -1,20 +1,22 @@
+import json
+from pathlib import Path
 import sys
-from typing import Literal
+from typing import Literal, cast
+from fastapi.exceptions import RequestValidationError
+from fastapi.responses import JSONResponse
 
 import uvicorn
-from fastapi import FastAPI, HTTPException, Request
+from fastapi import FastAPI, HTTPException, Request, status
 from linebot.v3.exceptions import InvalidSignatureError
-from linebot.v3.messaging import (
-    AsyncApiClient,
-    AsyncMessagingApi,
-    Configuration,
-    ReplyMessageRequest,
-    TextMessage,
-)
+from linebot.v3.messaging import AsyncApiClient, AsyncMessagingApi, Configuration
 from linebot.v3.webhook import WebhookParser
-from linebot.v3.webhooks import MessageEvent, TextMessageContent
+from linebot.v3.webhooks.models.message_event import MessageEvent
+from linebot.v3.webhooks.models.source import Source
 
 import kb_2315.config as config
+from kb_2315 import notify
+from kb_2315.api import schemas
+
 
 conf: config.env = config.read_config(dir=config.root_dir)
 
@@ -33,36 +35,55 @@ if channel_access_token is None:
 configuration = Configuration(access_token=channel_access_token)
 
 app = FastAPI()
+
 async_api_client = AsyncApiClient(configuration)
 line_bot_api = AsyncMessagingApi(async_api_client)
 parser = WebhookParser(channel_secret)
 
 
+@app.post("/sensor")
+async def get_sensor(item: schemas.machine) -> None:
+    print(item)
+
+
+    with open(Path(__file__).parent / "tmp.json", mode="r") as f:
+        j = json.load(f)
+
+        print(j)
+
+
+        if str(item.id) in j.keys():
+            match (j[str(item.id)], item.status):
+                case (False, True):
+                    notify.line.send_message(message=f"靴 {item.id} がセットされました")
+                case (True, False):
+                    notify.line.send_message(message=f"靴 {item.id} の乾燥が完了しました\nシューキーパーを入れてください")
+
+        j[str(item.id)] = item.status
+
+    with open(Path(__file__).parent / "tmp.json", mode="w") as f:
+        json.dump(j, f)
+
+
 @app.post("/callback")
 async def handle_callback(request: Request) -> Literal["OK"]:
-    signature = request.headers["X-Line-Signature"]
+    signature: str = request.headers["X-Line-Signature"]
 
-    # get request body as text
     byte_body: bytes = await request.body()
     body: str = byte_body.decode()
 
     try:
-        events = parser.parse(body, signature)
+        events: list[MessageEvent] = parser.parse(body, signature)  # type: ignore
     except InvalidSignatureError:
         raise HTTPException(status_code=400, detail="Invalid signature")
 
     for event in events:
-        if not isinstance(event, MessageEvent):
-            continue
-        if not isinstance(event.message, TextMessageContent):
-            continue
+        print(type(event))
 
-        await line_bot_api.reply_message(
-            ReplyMessageRequest(
-                reply_token=event.reply_token,
-                messages=[TextMessage(text=event.message.text)],
-            )
-        )
+        print(cast(Source, event.source).type)
+        print(event.source)
+
+        notify.line.send_message(message="sample message")
 
     return "OK"
 
