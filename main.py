@@ -1,3 +1,5 @@
+import json
+from pathlib import Path
 import sys
 from typing import Literal, cast
 from fastapi.exceptions import RequestValidationError
@@ -39,19 +41,28 @@ line_bot_api = AsyncMessagingApi(async_api_client)
 parser = WebhookParser(channel_secret)
 
 
-machines:dict[int, dict[str, bool]] = {}
-
 @app.post("/sensor")
-def get_sensor(machine: schemas.machine) -> None:
-    if machine.id in machines.keys():
-        for sensor_id, sensor_status in machine.status.items():
-            match (machines[machine.id][sensor_id], sensor_status):
+async def get_sensor(item: schemas.machine) -> None:
+    print(item)
+
+
+    with open(Path(__file__).parent / "tmp.json", mode="r") as f:
+        j = json.load(f)
+
+        print(j)
+
+
+        if str(item.id) in j.keys():
+            match (j[str(item.id)], item.status):
                 case (False, True):
-                    notify.line.send_message(message=f"靴 {sensor_id} がセットされました")
+                    notify.line.send_message(message=f"靴 {item.id} がセットされました")
                 case (True, False):
-                    notify.line.send_message(message=f"靴 {sensor_id} の乾燥が完了しました\nシューキーパーを入れてください")
-            machines[machine.id][sensor_id] = sensor_status
-        machines[machine.id] = machine.status.copy()
+                    notify.line.send_message(message=f"靴 {item.id} の乾燥が完了しました\nシューキーパーを入れてください")
+
+        j[str(item.id)] = item.status
+
+    with open(Path(__file__).parent / "tmp.json", mode="w") as f:
+        json.dump(j, f)
 
 
 @app.post("/callback")
