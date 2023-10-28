@@ -1,6 +1,8 @@
 #include <Arduino.h>
-#include <M5Core2.h>
 
+#ifdef TARGET_M5STACK_CORE2
+#include <M5Core2.h>
+#endif
 // put function declarations here:
 // Unified Sensor Library Example
 // Written by Tony DiCola for Adafruit Industries
@@ -16,16 +18,24 @@
 #include <config.h>
 AsyncWebServer server(80);
 
+#ifdef TARGET_M5STACK_CORE2
 #define DHT1 27
 #define DHT2 19
-//#define DHT3 25
-// 25, 27, 32
+#else
+#define DHT1 5
+#define DHT2 16
+#define DHT3 19
+#endif
+//  25, 27, 32
 
 #define DHTTYPE DHT22 // DHT 22 (AM2302)
 
 DHT_Unified dht1(DHT1, DHTTYPE);
 DHT_Unified dht2(DHT2, DHTTYPE);
-//DHT_Unified dht3(DHT3, DHTTYPE);
+
+#ifndef TARGET_M5STACK_CORE2
+DHT_Unified dht3(DHT3, DHTTYPE);
+#endif
 
 uint32_t delayMS;
 
@@ -33,12 +43,18 @@ float temperature1, temperature2, temperature3;
 float humidity1, humidity2, humidity3;
 
 void setup() {
+#ifdef TARGET_M5STACK_CORE2
   M5.begin();
-  //Serial.begin(115200);
-  // Initialize device.
+#else
+  Serial.begin(115200);
+#endif
+  //  Initialize device.
   dht1.begin();
   dht2.begin();
-  //dht3.begin();
+
+#ifndef TARGET_M5STACK_CORE2
+  dht3.begin();
+#endif
   sensor_t sensor;
   delayMS = sensor.min_delay;
 
@@ -51,18 +67,23 @@ void setup() {
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
   while (WiFi.status() != WL_CONNECTED) {
     delay(1000);
-    //Serial.println("Connecting to WiFi...");
-    M5.Lcd.fillScreen(BLACK);  // 画面の塗りつぶし
-    M5.Lcd.setCursor(0, 0);  // 文字列の書き出し位置
-    M5.Lcd.setTextSize(3);  // 文字サイズを設定  
-    M5.Lcd.printf("Connecting to WiFi...");  // シリアルモニタ
+#ifdef TARGET_M5STACK_CORE2
+    M5.Lcd.fillScreen(BLACK);               // 画面の塗りつぶし
+    M5.Lcd.setCursor(0, 0);                 // 文字列の書き出し位置
+    M5.Lcd.setTextSize(3);                  // 文字サイズを設定
+    M5.Lcd.printf("Connecting to WiFi..."); // シリアルモニタ
+#else
+    Serial.println("Connecting to WiFi...");
+#endif
   }
-  //Serial.println("Connected to WiFi");
-  M5.Lcd.fillScreen(BLACK);  // 画面の塗りつぶし
-  M5.Lcd.setCursor(0, 0);  // 文字列の書き出し位置
-  M5.Lcd.setTextSize(3);  // 文字サイズを設定  
-  M5.Lcd.printf("Connected to WiFi"); 
-
+#ifdef TARGET_M5STACK_CORE2
+  M5.Lcd.fillScreen(BLACK); // 画面の塗りつぶし
+  M5.Lcd.setCursor(0, 0);   // 文字列の書き出し位置
+  M5.Lcd.setTextSize(3);    // 文字サイズを設定
+  M5.Lcd.printf("Connected to WiFi");
+#else
+  Serial.println("Connected to WiFi");
+#endif
   // リクエストに応じてJSON形式のデータを返すエンドポイントの設定
   server.on("/data", HTTP_GET, [](AsyncWebServerRequest *request) {
     String jsonData = "";
@@ -97,16 +118,22 @@ void loop() {
 
   dht1.temperature().getEvent(&event);
   if (isnan(event.temperature)) {
-    //Serial.println(F("Error reading temperature!"));
+#ifdef TARGET_M5STACK_CORE2
     M5.Lcd.printf("Error reading temperature1!");
+#else
+    Serial.println(F("Error reading temperature!"));
+#endif
   } else {
     temperature1 = event.temperature;
   }
   // Get humidity event and print its value.
   dht1.humidity().getEvent(&event);
   if (isnan(event.relative_humidity)) {
-    //Serial.println(F("Error reading humidity!"));
+#ifdef TARGET_M5STACK_CORE2
     M5.Lcd.printf("Error reading humidity1!");
+#else
+    Serial.println(F("Error reading humidity!"));
+#endif
   } else {
     humidity1 = event.relative_humidity;
   }
@@ -114,20 +141,26 @@ void loop() {
   // DHT2
   dht2.temperature().getEvent(&event);
   if (isnan(event.temperature)) {
-    //Serial.println(F("Error reading temperature!"));
+#ifdef TARGET_M5STACK_CORE2
     M5.Lcd.printf("Error reading temperature2!");
+#else
+    Serial.println(F("Error reading temperature!"));
+#endif
   } else {
     temperature2 = event.temperature;
   }
   // Get humidity event and print its value.
   dht2.humidity().getEvent(&event);
   if (isnan(event.relative_humidity)) {
-    //Serial.println(F("Error reading humidity!"));
-    M5.Lcd.printf("Error reading humidity2!");   
+#ifdef TARGET_M5STACK_CORE2
+    M5.Lcd.printf("Error reading humidity2!");
+#else
+    Serial.println(F("Error reading humidity!"));
+#endif
   } else {
     humidity2 = event.relative_humidity;
   }
-#if 0
+#ifndef TARGET_M5STACK_CORE2
   // DHT3
   dht3.temperature().getEvent(&event);
   if (isnan(event.temperature)) {
@@ -142,14 +175,17 @@ void loop() {
   } else {
     humidity3 = event.relative_humidity;
   }
-#endif 
-  //Serial.printf("Temperature: %f *C \t Humidity: %f %% \n", temperature1,
-                //humidity1);
-  M5.Lcd.fillScreen(BLACK);  // 画面の塗りつぶし
-  M5.Lcd.setCursor(0, 0);  // 文字列の書き出し位置
-  M5.Lcd.setTextSize(3);  // 文字サイズを設定  
+#endif
+  // Serial.printf("Temperature: %f *C \t Humidity: %f %% \n", temperature1,
+  // humidity1);
+
+#ifdef TARGET_M5STACK_CORE2
+  M5.Lcd.fillScreen(BLACK); // 画面の塗りつぶし
+  M5.Lcd.setCursor(0, 0);   // 文字列の書き出し位置
+  M5.Lcd.setTextSize(3);    // 文字サイズを設定
   M5.Lcd.printf("Temperature1: %f *C \t Humidity1: %f %% \n", temperature1,
                 humidity1);
   M5.Lcd.printf("Temperature2: %f *C \t Humidity2: %f %% \n", temperature2,
-                humidity2);                         
+                humidity2);
+#endif
 }
