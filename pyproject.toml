@@ -3,7 +3,10 @@ name = "kb-2315"
 version = "0.1.0"
 description = "Add your description here"
 authors = [{ name = "kb_2135", email = "kb_2315@example.com" }]
-dependencies = []
+dependencies = [
+    "toml>=0.10.2",
+    "requests>=2.31.0",
+]
 readme = "README.md"
 requires-python = ">= 3.11"
 
@@ -19,6 +22,8 @@ dev-dependencies = [
     "isort>=5.12.0",
     "mypy>=1.6.1",
     "ruff>=0.1.1",
+    "types-toml>=0.10.8.7",
+    "types-requests>=2.31.0.10",
 ]
 
 [tool.hatch.metadata]
