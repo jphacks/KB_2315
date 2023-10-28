@@ -8,104 +8,127 @@
 // REQUIRES the following Arduino libraries:
 // - DHT Sensor Library: https://github.com/adafruit/DHT-sensor-library
 // - Adafruit Unified Sensor Lib: https://github.com/adafruit/Adafruit_Sensor
-
 #include <Adafruit_Sensor.h>
 #include <DHT.h>
 #include <DHT_U.h>
+#include <ESPAsyncWebServer.h>
+#include <config.h>
+AsyncWebServer server(80);
 
-#define DHTPIN 13 // Digital pin connected to the DHT sensor
-// Feather HUZZAH ESP8266 note: use pins 3, 4, 5, 12, 13 or 14 --
-// Pin 15 can work but DHT must be disconnected during program upload.
+#define DHT1 5
+#define DHT2 16
+#define DHT3 19
+// 25, 27, 32
 
-// Uncomment the type of sensor in use:
-// #define DHTTYPE    DHT11     // DHT 11
 #define DHTTYPE DHT22 // DHT 22 (AM2302)
-// #define DHTTYPE    DHT21     // DHT 21 (AM2301)
 
-// See guide for details on sensor wiring and usage:
-//   https://learn.adafruit.com/dht/overview
-
-DHT_Unified dht(DHTPIN, DHTTYPE);
+DHT_Unified dht1(DHT1, DHTTYPE);
+DHT_Unified dht2(DHT2, DHTTYPE);
+DHT_Unified dht3(DHT3, DHTTYPE);
 
 uint32_t delayMS;
 
-void setup()
-{
+float temperature1, temperature2, temperature3;
+float humidity1, humidity2, humidity3;
+
+void setup() {
   Serial.begin(115200);
   // Initialize device.
-  dht.begin();
-  Serial.println(F("DHTxx Unified Sensor Example"));
-  // Print temperature sensor details.
+  dht1.begin();
+  dht2.begin();
+  dht3.begin();
   sensor_t sensor;
-  dht.temperature().getSensor(&sensor);
-  Serial.println(F("------------------------------------"));
-  Serial.println(F("Temperature Sensor"));
-  Serial.print(F("Sensor Type: "));
-  Serial.println(sensor.name);
-  Serial.print(F("Driver Ver:  "));
-  Serial.println(sensor.version);
-  Serial.print(F("Unique ID:   "));
-  Serial.println(sensor.sensor_id);
-  Serial.print(F("Max Value:   "));
-  Serial.print(sensor.max_value);
-  Serial.println(F("°C"));
-  Serial.print(F("Min Value:   "));
-  Serial.print(sensor.min_value);
-  Serial.println(F("°C"));
-  Serial.print(F("Resolution:  "));
-  Serial.print(sensor.resolution);
-  Serial.println(F("°C"));
-  Serial.println(F("------------------------------------"));
-  // Print humidity sensor details.
-  dht.humidity().getSensor(&sensor);
-  Serial.println(F("Humidity Sensor"));
-  Serial.print(F("Sensor Type: "));
-  Serial.println(sensor.name);
-  Serial.print(F("Driver Ver:  "));
-  Serial.println(sensor.version);
-  Serial.print(F("Unique ID:   "));
-  Serial.println(sensor.sensor_id);
-  Serial.print(F("Max Value:   "));
-  Serial.print(sensor.max_value);
-  Serial.println(F("%"));
-  Serial.print(F("Min Value:   "));
-  Serial.print(sensor.min_value);
-  Serial.println(F("%"));
-  Serial.print(F("Resolution:  "));
-  Serial.print(sensor.resolution);
-  Serial.println(F("%"));
-  Serial.println(F("------------------------------------"));
-  // Set delay between sensor readings based on sensor details.
   delayMS = sensor.min_delay / 1000;
+
+  // WiFi Setup
+
+#if STATIC_IP
+  WiFi.config(ip, gateway, subnet);
+#endif
+
+  WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(1000);
+    Serial.println("Connecting to WiFi...");
+  }
+  Serial.println("Connected to WiFi");
+
+  // リクエストに応じてJSON形式のデータを返すエンドポイントの設定
+  server.on("/data", HTTP_GET, [](AsyncWebServerRequest *request) {
+    String jsonData = "";
+    jsonData += "{\n";
+    jsonData += "  \"sensor1\": {\n";
+    jsonData += "    \"temperature\": " + String(temperature1, 2) + ",\n";
+    jsonData += "    \"humidity\": " + String(humidity1, 2) + "\n";
+    jsonData += "  },\n";
+    jsonData += "  \"sensor2\": {\n";
+    jsonData += "    \"temperature\": " + String(temperature2, 2) + ",\n";
+    jsonData += "    \"humidity\": " + String(humidity2, 2) + "\n";
+    jsonData += "  },\n";
+    jsonData += "  \"sensor3\": {\n";
+    jsonData += "    \"temperature\": " + String(temperature3, 2) + ",\n";
+    jsonData += "    \"humidity\": " + String(humidity3, 2) + "\n";
+    jsonData += "  }\n";
+    jsonData += "}\n";
+    request->send(200, "application/json", jsonData);
+  });
+
+  // サーバーの開始
+  server.begin();
 }
 
-void loop()
-{
+void loop() {
+  Serial.println(WiFi.localIP());
   // Delay between measurements.
   delay(delayMS);
   // Get temperature event and print its value.
   sensors_event_t event;
-  dht.temperature().getEvent(&event);
-  if (isnan(event.temperature))
-  {
+  // DHT1
+
+  dht1.temperature().getEvent(&event);
+  if (isnan(event.temperature)) {
     Serial.println(F("Error reading temperature!"));
-  }
-  else
-  {
-    Serial.print(F("Temperature: "));
-    Serial.print(event.temperature);
-    Serial.println(F("°C"));
+  } else {
+    temperature1 = event.temperature;
   }
   // Get humidity event and print its value.
-  dht.humidity().getEvent(&event);
-  if (isnan(event.relative_humidity))
-  {
+  dht1.humidity().getEvent(&event);
+  if (isnan(event.relative_humidity)) {
     Serial.println(F("Error reading humidity!"));
+  } else {
+    humidity1 = event.relative_humidity;
   }
-  else
-  {
-    Serial.print(F("Humidity: "));
-    Serial.print(event.relative_humidity);
-    Serial.println(F("%"));
+
+  // DHT2
+  dht2.temperature().getEvent(&event);
+  if (isnan(event.temperature)) {
+    Serial.println(F("Error reading temperature!"));
+  } else {
+    temperature2 = event.temperature;
   }
+  // Get humidity event and print its value.
+  dht2.humidity().getEvent(&event);
+  if (isnan(event.relative_humidity)) {
+    Serial.println(F("Error reading humidity!"));
+  } else {
+    humidity2 = event.relative_humidity;
+  }
+
+  // DHT3
+  dht3.temperature().getEvent(&event);
+  if (isnan(event.temperature)) {
+    Serial.println(F("Error reading temperature!"));
+  } else {
+    temperature3 = event.temperature;
+  }
+  // Get humidity event and print its value.
+  dht3.humidity().getEvent(&event);
+  if (isnan(event.relative_humidity)) {
+    Serial.println(F("Error reading humidity!"));
+  } else {
+    humidity3 = event.relative_humidity;
+  }
+
+  // Serial.printf("Temperature: %f *C \t Humidity: %f %% \n", humidity,
+  //               temperature);
 }
