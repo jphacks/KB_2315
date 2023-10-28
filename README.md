@@ -25,7 +25,11 @@
 * 
 
 ### 今後の展望
-
+/　革靴の整理・アプリケーション化
+/  100人分ビジネスマンの革靴8時間分湿度取得
+/  データ可視化(Webserverがjsonに書き出してJypterNotebookでデータ可視化予定)
+/ 各SNSへの拡大（今後、Slack, WhatsApp, Discord)
+*ビジネス企業との連携
 
 ### 注力したこと（こだわり等）
 * 「革靴本来の匂い * 型を崩さない」の両方を実現できる点
@@ -35,6 +39,7 @@
 <img src="./icons/CPP.svg" width="48"> <img src="./icons/Python-Dark.svg" width="48"> <img src="./icons/Postman.svg" width="48"> <img src="./icons/Git.svg" width="48"> <img src="./icons/GithubActions-Dark.svg" width="48">
 
 ### 活用した技術
+*　
 
 #### API・データ
 * Weather API
@@ -47,7 +52,7 @@
 #### デバイス
 * DHT22
 * ESP32
-* 
+* M5stack
 
 ### 独自技術
 #### ハッカソンで開発した独自機能・技術
