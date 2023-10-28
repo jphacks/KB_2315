@@ -16,15 +16,15 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-version }}
-      - name: Install poetry
+      - name: Install dependency
         run: |
           pip install -r requirements.lock -r requirements-dev.lock
       - name: Check Type
         run: |
-          mypy src
+          mypy .
       - name: Lint
         run: |
-          ruff src test
+          ruff .
       - name: Check Format
         run: |
           black --check .
