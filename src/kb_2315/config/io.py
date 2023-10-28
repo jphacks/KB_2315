@@ -1,7 +1,9 @@
 from dataclasses import asdict
 from pathlib import Path
-from kb_2315.config.env import env, root_dir
+
 import toml
+
+from kb_2315.config.env import env, root_dir
 
 
 def read_config(
