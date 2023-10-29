@@ -65,7 +65,7 @@
 #### デバイス
 
 * マイコン
-  * [ESP32](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/hw-reference/esp32/get-started-devkitc.html)
+  * [ESP32 Devkit C](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/hw-reference/esp32/get-started-devkitc.html)
   * <img src=./doc/image/esp32.jpg width="300px">
   * [M5Core2](https://docs.m5stack.com/en/core/core2)
   * <img src=./doc/image/m5core2.webp width="300px">
