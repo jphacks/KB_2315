@@ -3,7 +3,13 @@ name = "kb-2315"
 version = "0.1.0"
 description = "Add your description here"
 authors = [{ name = "kb_2135", email = "kb_2315@example.com" }]
-dependencies = []
+dependencies = [
+    "toml>=0.10.2",
+    "requests>=2.31.0",
+    "fastapi>=0.104.0",
+    "uvicorn>=0.23.2",
+    "line-bot-sdk>=3.5.0",
+]
 readme = "README.md"
 requires-python = ">= 3.11"
 
@@ -19,7 +25,60 @@ dev-dependencies = [
     "isort>=5.12.0",
     "mypy>=1.6.1",
     "ruff>=0.1.1",
+    "types-toml>=0.10.8.7",
+    "types-requests>=2.31.0.10",
 ]
 
 [tool.hatch.metadata]
 allow-direct-references = true
+
+[tool.black]
+line-length = 120
+target-version = ['py310']
+
+[tool.flake8]
+max-line-length = 120
+max-complexity = 18
+ignore = "E266,E402,W503"
+
+[tool.isort]
+profile = "black"
+lines_after_imports = 2
+
+[tool.mypy]
+ignore_missing_imports = true
+warn_unused_ignores = false
+
+[tool.ruff]
+line-length = 120
+
+# Enable Pyflakes `E` and `F` codes by default.
+select = ["E", "F", "I"]
+ignore = ["I001"]
+
+# Exclude a variety of commonly ignored directories.
+exclude = [
+    ".git",
+    ".mypy_cache",
+    ".nox",
+    ".ruff_cache",
+    ".tox",
+    ".venv",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+]
+per-file-ignores = {}
+
+# Allow unused variables when underscore-prefixed.
+dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+
+# Assume Python 3.10.
+target-version = "py310"
+
+[tool.ruff.mccabe]
+# Unlike Flake8, default to a complexity level of 10.
+max-complexity = 10

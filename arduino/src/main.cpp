@@ -13,6 +13,7 @@
 #include <DHT.h>
 #include <DHT_U.h>
 #include <ESPAsyncWebServer.h>
+#include <HTTPClient.h>
 #include <config.h>
 AsyncWebServer server(80);
 
@@ -29,6 +30,7 @@ DHT_Unified ShoesSensor2(DHT2, DHTTYPE);
 DHT_Unified RoomSensor(DHT3, DHTTYPE);
 
 uint32_t delayMS;
+HTTPClient http;
 
 float ShoesTemp1, ShoesTemp2, RoomTemp;
 float ShoesHumi1, ShoesHumi2, RoomHumi;
@@ -91,6 +93,15 @@ void setup() {
 
   // サーバーの開始
   server.begin();
+}
+
+int send_to_server(int id, bool status) {
+  http.begin(HOST_URL);
+  http.addHeader("Content-Type", "application/json");
+  int st = http.POST("{\"id\":" + String(id) + ",\"status\":" + String(status) +
+                     "}");
+  http.end();
+  return st;
 }
 
 void loop() {
