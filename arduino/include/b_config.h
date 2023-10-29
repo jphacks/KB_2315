@@ -1,5 +1,6 @@
 #define WIFI_SSID ""
 #define WIFI_PASSWORD ""
+#define HOST_URL ""
 
 #define STATIC_IP 0
 const IPAddress ip(192, 168, 10, 89);

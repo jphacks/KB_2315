@@ -12,6 +12,7 @@
 #include <DHT.h>
 #include <DHT_U.h>
 #include <ESPAsyncWebServer.h>
+#include <HTTPClient.h>
 #include <config.h>
 AsyncWebServer server(80);
 
@@ -27,6 +28,7 @@ DHT_Unified dht2(DHT2, DHTTYPE);
 DHT_Unified dht3(DHT3, DHTTYPE);
 
 uint32_t delayMS;
+HTTPClient http;
 
 float temperature1, temperature2, temperature3;
 float humidity1, humidity2, humidity3;
@@ -75,6 +77,15 @@ void setup() {
 
   // サーバーの開始
   server.begin();
+}
+
+int send_to_server(int id, bool status) {
+  http.begin(HOST_URL);
+  http.addHeader("Content-Type", "application/json");
+  int st = http.POST("{\"id\":" + String(id) + ",\"status\":" + String(status) +
+                     "}");
+  http.end();
+  return st;
 }
 
 void loop() {
