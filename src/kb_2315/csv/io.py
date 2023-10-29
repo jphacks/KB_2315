@@ -1,8 +1,8 @@
-import csv
 from pathlib import Path
 from uuid import uuid4
 
 import kb_2315.config as config
+
 
 conf: config.env = config.read_config(dir=config.root_dir)
 
