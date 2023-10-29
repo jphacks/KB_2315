@@ -28,7 +28,6 @@
 
 #### 2. 特長2：革靴の状態を把握できる
 
-#### 3. 特長3：革靴の置き場所を把握できる
 
 ### 解決出来ること
 
@@ -48,10 +47,6 @@
 
 * 「革靴本来の匂い * 型を崩さない」の両方を実現できる点
 * 「革靴の状態を把握」できる点
-
-## 開発技術
-
-<img src="./icons/CPP.svg" width="48"> <img src="./icons/Python-Dark.svg" width="48"> <img src="./icons/Postman.svg" width="48"> <img src="./icons/Git.svg" width="48"> <img src="./icons/GithubActions-Dark.svg" width="48">
 
 ## 開発技術
 
