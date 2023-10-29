@@ -15,6 +15,7 @@
 #include <ESPAsyncWebServer.h>
 #include <HTTPClient.h>
 #include <config.h>
+#include <secret.h>
 AsyncWebServer server(80);
 
 #define DHT1 27
@@ -39,8 +40,8 @@ int count = 0;
 
 void setup() {
   M5.begin();
-  //Serial.begin(115200);
-  // Initialize device.
+  // Serial.begin(115200);
+  //  Initialize device.
   ShoesSensor1.begin();
   ShoesSensor2.begin();
   RoomSensor.begin();
@@ -48,7 +49,7 @@ void setup() {
   delayMS = sensor.min_delay;
   pinMode(FAN, OUTPUT);
 
-  digitalWrite(FAN,1);
+  digitalWrite(FAN, 1);
 
   // WiFi Setup
 
@@ -59,17 +60,17 @@ void setup() {
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
   while (WiFi.status() != WL_CONNECTED) {
     delay(1000);
-    //Serial.println("Connecting to WiFi...");
-    M5.Lcd.fillScreen(BLACK);  // 画面の塗りつぶし
-    M5.Lcd.setCursor(0, 0);  // 文字列の書き出し位置
-    M5.Lcd.setTextSize(3);  // 文字サイズを設定  
-    M5.Lcd.printf("Connecting to WiFi...");  // シリアルモニタ
+    // Serial.println("Connecting to WiFi...");
+    M5.Lcd.fillScreen(BLACK);               // 画面の塗りつぶし
+    M5.Lcd.setCursor(0, 0);                 // 文字列の書き出し位置
+    M5.Lcd.setTextSize(3);                  // 文字サイズを設定
+    M5.Lcd.printf("Connecting to WiFi..."); // シリアルモニタ
   }
-  //Serial.println("Connected to WiFi");
-  M5.Lcd.fillScreen(BLACK);  // 画面の塗りつぶし
-  M5.Lcd.setCursor(0, 0);  // 文字列の書き出し位置
-  M5.Lcd.setTextSize(3);  // 文字サイズを設定  
-  M5.Lcd.printf("Connected to WiFi"); 
+  // Serial.println("Connected to WiFi");
+  M5.Lcd.fillScreen(BLACK); // 画面の塗りつぶし
+  M5.Lcd.setCursor(0, 0);   // 文字列の書き出し位置
+  M5.Lcd.setTextSize(3);    // 文字サイズを設定
+  M5.Lcd.printf("Connected to WiFi");
 
   // リクエストに応じてJSON形式のデータを返すエンドポイントの設定
   server.on("/data", HTTP_GET, [](AsyncWebServerRequest *request) {
@@ -104,77 +105,96 @@ int send_to_server(int id, bool status) {
   return st;
 }
 
+int speed = 1;
+
+void fan_on(int sp = 1) { speed = sp; }
+void fan_off() { speed = 0; }
+void fan_run() { digitalWrite(FAN, speed); }
+// void fan_run() { analogWrite(FAN, speed); }
+
+long long timer = 0;
+
 void loop() {
-  Serial.println(WiFi.localIP());
-  // Delay between measurements.
-  delay(delayMS);
-  // Get temperature event and print its value.
-  sensors_event_t event;
-  // ShoesSensor1
+  if (millis() - timer > delayMS) {
+    timer = millis();
 
-  ShoesSensor1.temperature().getEvent(&event);
-  if (isnan(event.temperature)) {
-    //Serial.println(F("Error reading temperature!"));
-    M5.Lcd.printf("Error reading ShoesTemp1!");
-  } else {
-    ShoesTemp1 = event.temperature;
-  }
-  // Get humidity event and print its value.
-  ShoesSensor1.humidity().getEvent(&event);
-  if (isnan(event.relative_humidity)) {
-    //Serial.println(F("Error reading humidity!"));
-    M5.Lcd.printf("Error reading ShoesHumi1!");
-  } else {
-    ShoesHumi1 = event.relative_humidity;
-  }
+    Serial.println(WiFi.localIP());
+    // Delay between measurements.
 
-  // ShoesSensor2
-  ShoesSensor2.temperature().getEvent(&event);
-  if (isnan(event.temperature)) {
-    //Serial.println(F("Error reading temperature!"));
-    M5.Lcd.printf("Error reading ShoesTemp2!");
-  } else {
-    ShoesTemp2 = event.temperature;
-  }
-  // Get humidity event and print its value.
-  ShoesSensor2.humidity().getEvent(&event);
-  if (isnan(event.relative_humidity)) {
-    //Serial.println(F("Error reading humidity!"));
-    M5.Lcd.printf("Error reading ShoesHumi2!");   
-  } else {
-    ShoesHumi2 = event.relative_humidity;
-  }
+    // Get temperature event and print its value.
+    sensors_event_t event;
+    // ShoesSensor1
 
-  // RoomSensor
-  RoomSensor.temperature().getEvent(&event);
-  if (isnan(event.temperature)) {
-    //Serial.println(F("Error reading temperature!"));
-    M5.Lcd.printf("Error reading RoomTemp!");   
-  } else {
-    RoomTemp = event.temperature;
-  }
-  // Get humidity event and print its value.
-  RoomSensor.humidity().getEvent(&event);
-  if (isnan(event.relative_humidity)) {
-    //Serial.println(F("Error reading humidity!"));
-    M5.Lcd.printf("Error reading RoomHumi!");    
-  } else {
-    RoomHumi = event.relative_humidity;
-  }
-  //Serial.printf("Temperature: %f *C \t Humidity: %f %% \n", ShoesTemp1,
-                //ShoesHumi1);
-  M5.Lcd.fillScreen(BLACK);  // 画面の塗りつぶし
-  M5.Lcd.setCursor(0, 0);  // 文字列の書き出し位置
-  M5.Lcd.setTextSize(3);  // 文字サイズを設定  
-  M5.Lcd.printf("ShoesTemp1: %f *C \t ShoesHumi1: %f %% \n", ShoesTemp1,
-                ShoesHumi1);
-  M5.Lcd.printf("ShoesTemp2: %f *C \t ShoesHumi2: %f %% \n", ShoesTemp2,
-                ShoesHumi2);
-  M5.Lcd.printf("RoomTemp: %f *C \t ShoesHumi2: %f %% \n", RoomTemp,
-                ShoesHumi2);
-  count++;
-  if(count>=500)
-  {
-    analogWrite(FAN, 128);  
-  }   
+    ShoesSensor1.temperature().getEvent(&event);
+    if (isnan(event.temperature)) {
+      // Serial.println(F("Error reading temperature!"));
+      M5.Lcd.printf("Error reading ShoesTemp1!");
+    } else {
+      ShoesTemp1 = event.temperature;
+    }
+    // Get humidity event and print its value.
+    ShoesSensor1.humidity().getEvent(&event);
+    if (isnan(event.relative_humidity)) {
+      // Serial.println(F("Error reading humidity!"));
+      M5.Lcd.printf("Error reading ShoesHumi1!");
+    } else {
+      ShoesHumi1 = event.relative_humidity;
+    }
+
+    // ShoesSensor2
+    ShoesSensor2.temperature().getEvent(&event);
+    if (isnan(event.temperature)) {
+      // Serial.println(F("Error reading temperature!"));
+      M5.Lcd.printf("Error reading ShoesTemp2!");
+    } else {
+      ShoesTemp2 = event.temperature;
+    }
+    // Get humidity event and print its value.
+    ShoesSensor2.humidity().getEvent(&event);
+    if (isnan(event.relative_humidity)) {
+      // Serial.println(F("Error reading humidity!"));
+      M5.Lcd.printf("Error reading ShoesHumi2!");
+    } else {
+      ShoesHumi2 = event.relative_humidity;
+    }
+
+    // RoomSensor
+    RoomSensor.temperature().getEvent(&event);
+    if (isnan(event.temperature)) {
+      // Serial.println(F("Error reading temperature!"));
+      M5.Lcd.printf("Error reading RoomTemp!");
+    } else {
+      RoomTemp = event.temperature;
+    }
+    // Get humidity event and print its value.
+    RoomSensor.humidity().getEvent(&event);
+    if (isnan(event.relative_humidity)) {
+      // Serial.println(F("Error reading humidity!"));
+      M5.Lcd.printf("Error reading RoomHumi!");
+    } else {
+      RoomHumi = event.relative_humidity;
+    }
+    // Serial.printf("Temperature: %f *C \t Humidity: %f %% \n", ShoesTemp1,
+    // ShoesHumi1);
+    M5.Lcd.fillScreen(BLACK); // 画面の塗りつぶし
+    M5.Lcd.setCursor(0, 0);   // 文字列の書き出し位置
+    M5.Lcd.setTextSize(3);    // 文字サイズを設定
+    M5.Lcd.printf("ShoesTemp1: %f *C \t ShoesHumi1: %f %% \n", ShoesTemp1,
+                  ShoesHumi1);
+    M5.Lcd.printf("ShoesTemp2: %f *C \t ShoesHumi2: %f %% \n", ShoesTemp2,
+                  ShoesHumi2);
+    M5.Lcd.printf("RoomTemp: %f *C \t ShoesHumi2: %f %% \n", RoomTemp,
+                  ShoesHumi2);
+
+    if (abs(ShoesTemp1 - RoomTemp) < GAP_TEMP &&
+        (ShoesHumi1 - RoomHumi) > GAP_HUM) {
+      fan_on();
+      send_to_server(DEVICE_ID, true);
+    } else {
+      fan_off();
+      send_to_server(DEVICE_ID, false);
+    }
+  };
+
+  fan_run();
 }
