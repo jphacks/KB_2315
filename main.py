@@ -43,7 +43,9 @@ parser = WebhookParser(channel_secret)
 async def get_sensor(item: schemas.machine) -> None:
     print(item)
 
-    with open(Path(__file__).parent / "tmp.json", mode="r") as f:
+    jsonfile: Path = Path(__file__).parent / "data" / "tmp.json"
+
+    with open(jsonfile, mode="r") as f:
         j = json.load(f)
 
         print(j)
@@ -61,7 +63,7 @@ async def get_sensor(item: schemas.machine) -> None:
 
         j[str(item.id)] = item.status
 
-    with open(Path(__file__).parent / "tmp.json", mode="w") as f:
+    with open(jsonfile, mode="w") as f:
         json.dump(j, f)
 
 
