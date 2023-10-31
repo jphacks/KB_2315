@@ -1,6 +1,6 @@
 # 革靴メンテなんです
 
-[![IMAGE ALT TEXT HERE](https://jphacks.com/wp-content/uploads/2023/07/JPHACKS2023_ogp.png)](https://www.youtube.com/watch?v=yYRQEdfGjEg)
+[![IMAGE ALT TEXT HERE](../doc/image/革靴メンテなんです ！！.mp4)](https://www.canva.com/design/DAFyy9fp1tY/watch)
 
 ## 製品概要
 
