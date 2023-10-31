@@ -1,6 +1,8 @@
 # 革靴メンテなんです
 
-<img src="doc/image/革靴メンテなんです.gif" width="600" height="600">
+<div align="center">
+<img src="doc/image/革靴メンテなんです.gif" width="600" height="400">
+</div>
 
 ## 製品概要
 
