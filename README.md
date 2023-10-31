@@ -1,6 +1,6 @@
 # 革靴メンテなんです
 
-[![IMAGE ALT TEXT HERE](../doc/image/革靴メンテなんです ！！.mp4)](https://www.canva.com/design/DAFyy9fp1tY/watch)
+[![IMAGE ALT TEXT HERE](doc/image/革靴メンテなんです ！！.mp4)](doc/image/革靴メンテなんです ！！.mp4)
 
 ## 製品概要
 
