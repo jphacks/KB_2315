@@ -1,6 +1,6 @@
 # 革靴メンテなんです
 
-[![IMAGE ALT TEXT HERE](./doc/image/革靴メンテなんです ！！.mp4)](./doc/image/革靴メンテなんです%20！！.mp4)
+[![IMAGE ALT TEXT HERE](./doc/image/革靴メンテなんです.mp4)](./doc/image/革靴メンテなんです.mp4)
 
 ## 製品概要
 
