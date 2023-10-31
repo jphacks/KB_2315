@@ -1,4 +1,5 @@
-# 革靴メンテなんです
+# 革靴メンテなんです!!
+<img src="https://komarev.com/ghpvc/?username=Hayatto9217&style=flat-square&color=blue" alt="views"/>
 
 <div align="center">
 <img src="doc/image/革靴メンテなんです.gif" width="600" height="600">
