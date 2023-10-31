@@ -1,6 +1,6 @@
 # 革靴メンテなんです
 
-![doc/image/革靴メンテなんです.gif](doc/image/革靴メンテなんです.gif)
+<img src="doc/image/革靴メンテなんです.gif" width="600" height="600">
 
 ## 製品概要
 
