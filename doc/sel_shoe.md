@@ -19,3 +19,31 @@ sequenceDiagram
     Sensor  ->>    Edge    : 靴の乾燥が終了
 
 ```
+
+## ダイアグラム図
+
+``` mermaid
+erDiagram
+
+sensors{
+    int id PK,UK
+    int session_id FK "セッションID"
+    int device_id "デバイスID"
+    int humidity "湿度"
+    int temperature "温度"
+    int time "日時"
+}
+
+SessionID{
+    int id PK,UK "セッションID"
+    int shoe_id FK "靴ID" 
+}
+
+Shoe{
+    int id PK,UK "靴ID"
+    String name "靴の名前"
+}
+
+SessionID  ||--o{ sensors : "contain"
+Shoe ||--o{ SessionID : "contain"
+```
