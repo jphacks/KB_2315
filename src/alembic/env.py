@@ -1,9 +1,11 @@
 from logging.config import fileConfig
 
 from alembic import context
-from kb_2315.backend.db.base import Base
+
 from kb_2315.backend.db.session import engine
 
+from kb_2315.backend.models import Sensor, Session, Shoe  # noqa: F401
+from kb_2315.backend.db.base import Base
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -19,6 +21,7 @@ if config.config_file_name is not None:
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
 target_metadata = Base.metadata  # type: ignore
+# target_metadata = [Sensor.metadata, Session.metadata, Shoe.metadata]  # type: ignore
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
