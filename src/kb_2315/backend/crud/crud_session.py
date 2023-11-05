@@ -3,6 +3,7 @@ from uuid import UUID
 from sqlalchemy.orm import Query
 
 from kb_2315.backend.models import Session
+
 from .base_crud import base_CRUD
 
 

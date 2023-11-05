@@ -1,5 +1,5 @@
-from typing import cast
 from uuid import UUID
+
 from fastapi import APIRouter
 
 from kb_2315 import notify

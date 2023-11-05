@@ -1,12 +1,11 @@
 from random import randint, random
 from time import sleep
 
-
 import requests
-from kb_2315.backend.schemas import schema_session, schema_sensor
 
+from kb_2315.backend.schemas import schema_sensor, schema_session
 from kb_2315.config import conf
-from kb_2315.backend import schemas
+
 
 device_id = randint(1, 100)
 
