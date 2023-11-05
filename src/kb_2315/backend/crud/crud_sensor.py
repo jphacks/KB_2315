@@ -10,7 +10,7 @@ from .base_crud import base_CRUD
 class CRUD_Sensor(base_CRUD):
     def add_sensor(
         self,
-        device_id: str,
+        device_id: int,
         external_temperature: float,
         external_humidity: float,
         internal_temperature: float,

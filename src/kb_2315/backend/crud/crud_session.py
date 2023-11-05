@@ -3,7 +3,6 @@ from uuid import UUID
 from sqlalchemy.orm import Query
 
 from kb_2315.backend.models import Session
-
 from .base_crud import base_CRUD
 
 
@@ -15,7 +14,10 @@ class CRUD_Session(base_CRUD):
 
             session.add(new_session)
             session.commit()
-        return new_session.session_id
+
+            sid: UUID = new_session.session_id
+
+        return sid
 
     def search_session_by(
         self,
