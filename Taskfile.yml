@@ -15,6 +15,10 @@ tasks:
       - isort .
       - mypy .
 
-  revision:
+  dbrevision:
     cmds:
       - alembic revision --autogenerate
+
+  dbhead:
+    cmds:
+      - alembic upgrade head
