@@ -25,7 +25,7 @@ class CRUD_Shoe(base_CRUD):
             query: Query[Shoe] = session.query(Shoe)
 
             if name is not None:
-                query = query.filter(Shoe.name == name)
+                query = query.filter(Shoe.name.like(f"%{name}%"))
             if id is not None:
                 query = query.filter(Shoe.id == id)
 

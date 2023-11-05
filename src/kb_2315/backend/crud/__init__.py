@@ -1,5 +1,6 @@
-from .crud_sessions import CRUD_Sessions
-from .crud_shoe import CRUD_Shoe
-from .crud_sensors import CRUD_Sensors
+from .crud_sensor import crud_sensor
+from .crud_session import crud_session
+from .crud_shoe import crud_shoe
 
-__all__: list[str] = ["CRUD_Sensors", "CRUD_Sessions", "CRUD_Shoe"]
+
+__all__: list[str] = ["crud_sensor", "crud_session", "crud_shoe"]

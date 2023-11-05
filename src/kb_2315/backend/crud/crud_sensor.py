@@ -2,12 +2,12 @@ from uuid import UUID
 
 from sqlalchemy.orm import Query
 
-from kb_2315.backend.models import Sensors
+from kb_2315.backend.models import Sensor
 
 from .base_crud import base_CRUD
 
 
-class CRUD_Sensors(base_CRUD):
+class CRUD_Sensor(base_CRUD):
     def add_sensor(
         self,
         device_id: str,
@@ -18,7 +18,7 @@ class CRUD_Sensors(base_CRUD):
         sesison_id: UUID,
     ) -> None:
         with self._Session() as session:
-            new_sensor = Sensors()
+            new_sensor = Sensor()
             new_sensor.device_id = device_id
             new_sensor.external_temperature = external_temperature
             new_sensor.external_humidity = external_humidity
@@ -34,16 +34,19 @@ class CRUD_Sensors(base_CRUD):
         id: int | None = None,
         device_id: str | None = None,
         session_id: UUID | None = None,
-    ) -> list[Sensors]:
+    ) -> list[Sensor]:
         with self._Session() as session:
-            query: Query[Sensors] = session.query(Sensors)
+            query: Query[Sensor] = session.query(Sensor)
 
             if id is not None:
-                query = query.filter(Sensors.id == id)
+                query = query.filter(Sensor.id == id)
             if device_id is not None:
-                query = query.filter(Sensors.device_id == id)
+                query = query.filter(Sensor.device_id == id)
 
             if session_id is not None:
-                query = query.filter(Sensors.session_id == session_id)
+                query = query.filter(Sensor.session_id == session_id)
 
             return query.all()
+
+
+crud_sensor = CRUD_Sensor()

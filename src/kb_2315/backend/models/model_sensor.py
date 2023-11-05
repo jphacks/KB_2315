@@ -9,10 +9,10 @@ from kb_2315.backend.db.base import Base
 
 
 if TYPE_CHECKING:
-    from .model_sessions import Sessions  # noqa: F401
+    from .model_session import Session  # noqa: F401
 
 
-class Sensors(Base):
+class Sensor(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     device_id: Mapped[str] = mapped_column(String)
     time: Mapped[datetime] = mapped_column(DATETIME, default=datetime.utcnow(), nullable=False)
@@ -21,4 +21,4 @@ class Sensors(Base):
     internal_temperature: Mapped[float] = mapped_column(Float, nullable=False)
     internal_humidity: Mapped[float] = mapped_column(Float, nullable=False)
 
-    session_id: Mapped[UUID] = mapped_column(Uuid(as_uuid=True), ForeignKey("sessions.session_id"), nullable=False)
+    session_id: Mapped[UUID] = mapped_column(Uuid(as_uuid=True), ForeignKey("session.session_id"), nullable=False)
