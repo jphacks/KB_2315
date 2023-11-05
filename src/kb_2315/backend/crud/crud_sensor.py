@@ -1,3 +1,4 @@
+from datetime import timezone
 from uuid import UUID
 
 from sqlalchemy.orm import Query
@@ -48,7 +49,12 @@ class CRUD_Sensor(base_CRUD):
             if session_id is not None:
                 query = query.filter(Sensor.session_id == session_id)
 
-            return query.all()
+            ret: list[Sensor] = query.all()
+
+            for r in ret:
+                r.time = r.time.replace(tzinfo=timezone.utc)
+
+            return ret
 
 
 crud_sensor = CRUD_Sensor()
