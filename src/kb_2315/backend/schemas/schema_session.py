@@ -1,5 +1,6 @@
+from uuid import UUID
 from pydantic import BaseModel
 
 
 class create_session(BaseModel):
-    shoe_id: int
+    session_id: UUID

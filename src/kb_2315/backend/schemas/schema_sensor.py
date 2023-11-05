@@ -1,11 +1,9 @@
-from uuid import UUID
-
 from pydantic import BaseModel
 
 
 class sensor(BaseModel):
-    session_id: UUID
-    device_id: str
+    session_id: str
+    device_id: int
     external_temperature: float
     external_humidity: float
     internal_temperature: float
