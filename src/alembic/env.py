@@ -1,11 +1,10 @@
 from logging.config import fileConfig
 
 from alembic import context
-
-from kb_2315.backend.db.session import engine
-
-from kb_2315.backend.models import Sensor, Session, Shoe  # noqa: F401
 from kb_2315.backend.db.base import Base
+from kb_2315.backend.db.session import engine
+from kb_2315.backend.models import Sensor, Session, Shoe  # noqa: F401
+
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
