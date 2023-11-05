@@ -2,7 +2,7 @@ from datetime import datetime
 from typing import TYPE_CHECKING
 from uuid import UUID
 
-from sqlalchemy import DATETIME, Boolean, Float, ForeignKey, Integer, String, Uuid
+from sqlalchemy import DATETIME, Boolean, Float, ForeignKey, Integer, Uuid
 from sqlalchemy.orm import Mapped, mapped_column
 
 from kb_2315.backend.db.base import Base
@@ -14,7 +14,7 @@ if TYPE_CHECKING:
 
 class Sensor(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    device_id: Mapped[str] = mapped_column(String)
+    device_id: Mapped[int] = mapped_column(Integer, nullable=False)
     time: Mapped[datetime] = mapped_column(DATETIME, default=datetime.utcnow(), nullable=False)
     external_temperature: Mapped[float] = mapped_column(Float, nullable=False)
     external_humidity: Mapped[float] = mapped_column(Float, nullable=False)
