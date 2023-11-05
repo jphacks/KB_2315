@@ -48,6 +48,7 @@ oracledb==1.4.2
 packaging==23.2
 pandas==2.1.2
 pillow==10.1.0
+plotly==5.18.0
 protobuf==4.25.0
 pyarrow==14.0.0
 pycparser==2.21
