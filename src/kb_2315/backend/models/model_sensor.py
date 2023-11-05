@@ -15,7 +15,7 @@ if TYPE_CHECKING:
 class Sensor(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     device_id: Mapped[int] = mapped_column(Integer, nullable=False)
-    time: Mapped[datetime] = mapped_column(DATETIME, default=datetime.utcnow(), nullable=False)
+    time: Mapped[datetime] = mapped_column(DATETIME(timezone=True), default=datetime.utcnow, nullable=False)
     external_temperature: Mapped[float] = mapped_column(Float, nullable=False)
     external_humidity: Mapped[float] = mapped_column(Float, nullable=False)
     internal_temperature: Mapped[float] = mapped_column(Float, nullable=False)
