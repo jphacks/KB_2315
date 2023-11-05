@@ -8,13 +8,14 @@ from .base_crud import base_CRUD
 
 
 class CRUD_Session(base_CRUD):
-    def add_session(self, shoe_id: int | None = None) -> None:
+    def add_session(self, shoe_id: int | None = None) -> UUID:
         with self._Session() as session:
             new_session = Session()
             new_session.shoe_id = shoe_id
 
             session.add(new_session)
             session.commit()
+        return new_session.session_id
 
     def search_session_by(
         self,
