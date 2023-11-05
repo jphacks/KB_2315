@@ -3,7 +3,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from kb_2315.backend.db.base import Base
 
-from .model_session_id import Sessions
+from .model_sessions import Sessions
 
 
 class Shoe(Base):

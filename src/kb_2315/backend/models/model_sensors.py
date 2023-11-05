@@ -9,12 +9,12 @@ from kb_2315.backend.db.base import Base
 
 
 if TYPE_CHECKING:
-    from .model_session_id import Sessions  # noqa: F401
+    from .model_sessions import Sessions  # noqa: F401
 
 
 class Sensors(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    devied_id: Mapped[str] = mapped_column(String, nullable=True)
+    device_id: Mapped[str] = mapped_column(String)
     time: Mapped[datetime] = mapped_column(DATETIME, default=datetime.utcnow(), nullable=False)
     external_temperature: Mapped[float] = mapped_column(Float, nullable=False)
     external_humidity: Mapped[float] = mapped_column(Float, nullable=False)
