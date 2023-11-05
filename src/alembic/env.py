@@ -1,7 +1,6 @@
 from logging.config import fileConfig
 
 from alembic import context
-
 from kb_2315.backend.db.base import Base
 from kb_2315.backend.db.session import engine
 
