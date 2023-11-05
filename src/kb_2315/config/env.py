@@ -1,8 +1,4 @@
 from dataclasses import dataclass
-from pathlib import Path
-
-
-root_dir: Path = Path(__file__).parents[3]
 
 
 @dataclass()
@@ -12,3 +8,9 @@ class env:
     line_channel_secret: str = ""
     line_group_id: str = ""
     host_url: str = ""
+
+    USE_EXTERNAL_DB: bool = False
+    DB_USER: str = ""
+    DB_PASSWORD: str = ""
+    DB_HOST: str = ""
+    DB_PORT: int = 1521

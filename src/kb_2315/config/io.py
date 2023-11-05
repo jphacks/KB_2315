@@ -3,7 +3,10 @@ from pathlib import Path
 
 import toml
 
-from kb_2315.config.env import env, root_dir
+from kb_2315.config.env import env
+
+
+root_dir: Path = Path(__file__).parents[3]
 
 
 def read_config(
@@ -29,3 +32,6 @@ def write_config(
 
     with file.open("w") as f:
         f.write(toml.dumps(asdict(config)))
+
+
+conf: env = read_config()
