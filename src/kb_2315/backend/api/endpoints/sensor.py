@@ -1,34 +1,44 @@
+from typing import cast
+from uuid import UUID
 from fastapi import APIRouter
 
 from kb_2315 import notify
 from kb_2315.backend.crud import crud_sensor, crud_session, crud_shoe
-from kb_2315.backend.schemas import sensor
+from kb_2315.backend.schemas import schema_sensor
 
 
 router = APIRouter()
 
 
 @router.post("/")
-def search_shoe(item: sensor) -> None:
-    crud_sensor.add_sensor(
-        device_id=item.device_id,
-        external_temperature=item.external_temperature,
-        external_humidity=item.external_humidity,
-        internal_temperature=item.internal_temperature,
-        internal_humidity=item.internal_humidity,
-        sesison_id=item.session_id,
-        drying=item.drying,
-    )
+def search_shoe(item: schema_sensor.sensor) -> None:
+    try:
+        uuid = UUID(item.session_id)
 
-    if not item.drying:
-        shoe_id: int | None = crud_session.search_session_by(session_id=item.session_id)[0].shoe_id
-        shoe_name: str | None = crud_shoe.search_shoe_by(id=shoe_id)[0].name
-
-        if not shoe_name:
-            shoe_name = "靴"
-
-        notify.line.send_message(
-            message=f"{shoe_name} の乾燥が完了しました\nシューズキーパーを入れてください",
+        crud_sensor.add_sensor(
+            device_id=item.device_id,
+            external_temperature=item.external_temperature,
+            external_humidity=item.external_humidity,
+            internal_temperature=item.internal_temperature,
+            internal_humidity=item.internal_humidity,
+            sesison_id=uuid,
+            drying=item.drying,
         )
 
-    return None
+        if not item.drying:
+            shoe_name: str = "靴"
+
+            shoe_id: int | None = crud_session.search_session_by(session_id=uuid)[0].shoe_id
+
+            try:
+                shoe_name = crud_shoe.search_shoe_by(id=shoe_id)[0].name
+            except IndexError:
+                pass
+
+            notify.line.send_message(
+                message=f"{shoe_name} の乾燥が完了しました\nシューズキーパーを入れてください",
+            )
+
+        return None
+    except ValueError:
+        pass

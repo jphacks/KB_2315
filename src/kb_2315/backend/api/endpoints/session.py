@@ -11,16 +11,19 @@ router = APIRouter()
 
 
 @router.get("/")
-def create_session(item: schema_session.create_session) -> UUID:
-    session_id: UUID = crud_session.add_session(shoe_id=item.shoe_id)
+def create_session(shoe_id: int) -> schema_session.create_session:
+    shoe_name: str | None = "靴"
 
-    shoe_name: str | None = crud_shoe.search_shoe_by(id=item.shoe_id)[0].name
+    session_id: UUID = crud_session.add_session(shoe_id=shoe_id)
 
-    if not shoe_name:
-        shoe_name = "靴"
+    try:
+        shoe_name = crud_shoe.search_shoe_by(id=shoe_id)[0].name
+    except IndexError:
+        pass
 
-    notify.line.send_message(
-        message=f"{shoe_name} の乾燥を開始します",
-    )
+    if False:
+        notify.line.send_message(
+            message=f"{shoe_name} の乾燥を開始します",
+        )
 
-    return session_id
+    return schema_session.create_session(session_id=session_id)
