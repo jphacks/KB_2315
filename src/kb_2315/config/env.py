@@ -10,7 +10,7 @@ class env:
     host_url: str = ""
 
     USE_EXTERNAL_DB: bool = False
-    DB_USER: str = ""
+    DB_USER: str = "postgres"
     DB_PASSWORD: str = ""
-    DB_HOST: str = ""
-    DB_PORT: int = 1521
+    DB_HOST: str = "db"
+    DB_PORT: int = 5432
