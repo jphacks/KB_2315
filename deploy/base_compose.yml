@@ -33,10 +33,12 @@ services:
         "streamlit",
         "run",
         "./src/graph.py",
-        "--server.port",
-        "8501",
-        "--server.baseUrlPath",
-        "/analyze/",
+        "--browser.gatherUsageStats=false",
+        "--server.address=0.0.0.0",
+        "--server.baseUrlPath=analyze",
+        "--server.port=8501",
+        "--server.enableCORS=false",
+        "--server.enableXsrfProtection=false",
       ]
 
   alembic:
