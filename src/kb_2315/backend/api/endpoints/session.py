@@ -21,9 +21,8 @@ def create_session(shoe_id: int) -> schema_session.create_session:
     except IndexError:
         pass
 
-    if False:
-        notify.line.send_message(
-            message=f"{shoe_name} の乾燥を開始します",
-        )
+    notify.line.send_message(
+        message=f"{shoe_name} の乾燥を開始します",
+    )
 
     return schema_session.create_session(session_id=session_id)
