@@ -7,7 +7,7 @@ from kb_2315.backend.api.router import api_router
 
 conf: config.env = config.read_config(dir=config.root_dir)
 
-app = FastAPI()
+app = FastAPI(root_path="/api")
 app.include_router(api_router)
 
 
