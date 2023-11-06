@@ -2,7 +2,7 @@ from datetime import datetime
 from typing import TYPE_CHECKING
 from uuid import UUID
 
-from sqlalchemy import Boolean, Float, ForeignKey, Integer, Uuid, DateTime
+from sqlalchemy import Boolean, DateTime, Float, ForeignKey, Integer, Uuid
 from sqlalchemy.orm import Mapped, mapped_column
 
 from kb_2315.backend.db.base import Base
