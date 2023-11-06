@@ -1,29 +1,34 @@
+from random import randint, random
 from time import sleep
 
 import requests
 
-import kb_2315.config as config
-from kb_2315.api import schemas
+from kb_2315.backend.schemas import schema_sensor, schema_session
+from kb_2315.config import conf
 
 
-conf: config.env = config.read_config(dir=config.root_dir)
+device_id = randint(1, 100)
 
-
-requests.post(
-    url=conf.host_url,
-    json=schemas.machine(id=1, status=False).model_dump(),
+resp: schema_session.create_session = schema_session.create_session.model_validate(
+    obj=requests.get(f"{conf.host_url}/session/?shoe_id={device_id}").json()
 )
+print(resp, resp.session_id)
+str_sesison_id = str(resp.session_id)
 
-sleep(2)
+it = 3
 
-requests.post(
-    url=conf.host_url,
-    json=schemas.machine(id=1, status=True).model_dump(),
-)
+for i in range(it):
+    requests.post(
+        url=f"{conf.host_url}/sensor",
+        json=schema_sensor.sensor(
+            session_id=str_sesison_id,
+            device_id=device_id,
+            external_temperature=random() * 30,
+            external_humidity=random() * 100,
+            internal_temperature=random() * 30,
+            internal_humidity=random() * 100,
+            drying=(i < it - 1),
+        ).model_dump(),
+    )
 
-sleep(2)
-
-requests.post(
-    url=conf.host_url,
-    json=schemas.machine(id=1, status=False).model_dump(),
-)
+    sleep(2)

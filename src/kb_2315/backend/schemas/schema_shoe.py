@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 
 
-class machine(BaseModel):
+class shoe(BaseModel):
     id: int
-    status: bool
+    name: str
