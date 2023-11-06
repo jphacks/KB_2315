@@ -1,5 +1,6 @@
-config.toml
-arduino
-doc
-icons
-compose.yml
+*
+!alembic.ini
+!src
+!requirements.lock
+!pyproject.toml
+!README.md
