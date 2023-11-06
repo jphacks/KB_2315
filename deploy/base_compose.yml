@@ -1,0 +1,67 @@
+services:
+  web:
+    image: nginx:latest
+    container_name: web
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./deploy/nginx:/etc/nginx/conf.d
+
+  app:
+    container_name: app
+    build:
+      context: .
+      dockerfile: ./deploy/Dockerfile
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./config.toml:/src/config.toml
+    command: ["python", "./src/main.py"]
+
+  graph:
+    container_name: graph
+    build:
+      context: .
+      dockerfile: ./deploy/Dockerfile
+    volumes:
+      - ./config.toml:/src/config.toml
+    ports:
+      - "8501:8501"
+    command:
+      [
+        "streamlit",
+        "run",
+        "./src/graph.py",
+        "--browser.gatherUsageStats=false",
+        "--server.address=0.0.0.0",
+        "--server.baseUrlPath=analyze",
+        "--server.port=8501",
+        "--server.enableCORS=false",
+        "--server.enableXsrfProtection=false",
+      ]
+
+  alembic:
+    container_name: alembic
+    build:
+      context: .
+      dockerfile: ./deploy/Dockerfile
+    volumes:
+      - ./config.toml:/src/config.toml
+    command: ["alembic", "upgrade", "head"]
+
+  db:
+    image: postgres:16
+    container_name: db
+    restart: always
+    environment:
+      TZ: "Asia/Tokyo"
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - ${DB_PORT:-5432}:5432
+    volumes:
+      - kb2315_db:/var/lib/postgresql/data
+
+volumes:
+  kb2315_db:

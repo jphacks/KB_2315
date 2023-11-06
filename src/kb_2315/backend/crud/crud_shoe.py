@@ -8,13 +8,15 @@ from .base_crud import base_CRUD
 
 
 class CRUD_Shoe(base_CRUD):
-    def add_shoe(self, name: str = f"Shoe-{str(uuid4())[:8]}") -> None:
+    def add_shoe(self, name: str = f"Shoe-{str(uuid4())[:8]}") -> int:
         new_shoe = Shoe()
         new_shoe.name = name
 
         with self._Session() as session:
             session.add(new_shoe)
             session.commit()
+
+        return new_shoe.id
 
     def search_shoe_by(
         self,

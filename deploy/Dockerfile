@@ -11,4 +11,4 @@ RUN groupadd -g $GID dev &&  \
     pip install -r requirements.lock --no-cache-dir
 
 USER dev
-CMD ["python", "main.py"]
+CMD ["python", "./src/main.py"]

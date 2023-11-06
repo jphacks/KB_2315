@@ -43,7 +43,7 @@ def upgrade() -> None:
         "sensor",
         sa.Column("id", sa.Integer(), nullable=False),
         sa.Column("device_id", sa.Integer(), nullable=False),
-        sa.Column("time", sa.DATETIME(timezone=True), nullable=False),
+        sa.Column("time", sa.DateTime(), nullable=False),
         sa.Column("external_temperature", sa.Float(), nullable=False),
         sa.Column("external_humidity", sa.Float(), nullable=False),
         sa.Column("internal_temperature", sa.Float(), nullable=False),
