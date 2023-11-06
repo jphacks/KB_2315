@@ -2,10 +2,11 @@ from random import random
 from time import sleep
 
 import requests
-from kb_2315.backend.crud import crud_shoe
 
+from kb_2315.backend.crud import crud_shoe
 from kb_2315.backend.schemas import schema_sensor, schema_session
 from kb_2315.config import conf
+
 
 try:
     device_id: int = crud_shoe.search_shoe_by()[0].id
