@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"name": "arduino",
+			"path": "./arduino"
+		},
+		{
+			"name": "python",
+			"path": "./src"
+		}
+	],
+	"settings": {}
+}
