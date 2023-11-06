@@ -1,25 +1,31 @@
-from random import randint, random
+from random import random
 from time import sleep
 
 import requests
+from kb_2315.backend.crud import crud_shoe
 
 from kb_2315.backend.schemas import schema_sensor, schema_session
 from kb_2315.config import conf
 
+try:
+    device_id: int = crud_shoe.search_shoe_by()[0].id
+except IndexError:
+    device_id = crud_shoe.add_shoe()
 
-device_id = randint(1, 100)
 
 resp: schema_session.create_session = schema_session.create_session.model_validate(
     obj=requests.get(f"{conf.host_url}/session/?shoe_id={device_id}").json()
 )
-print(resp, resp.session_id)
+
 str_sesison_id = str(resp.session_id)
+
+print(device_id, str_sesison_id)
 
 it = 3
 
 for i in range(it):
     requests.post(
-        url=f"{conf.host_url}/sensor",
+        url=f"{conf.host_url}/sensor/",
         json=schema_sensor.sensor(
             session_id=str_sesison_id,
             device_id=device_id,
