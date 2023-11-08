@@ -17,23 +17,26 @@
 
 - デバイス IDID
 
-  ``` cpp
-  const int DEVICE_ID = 1;
-  ```
+    ``` cpp
+    const int DEVICE_ID = 1;
+    ```
 
 ### secret.h
 
 - WiFi の接続情報など，機密情報を記述する
 - base_secret.h コピーし，secret.h として利用する
-- WiFi の接続設定（必須部分）
+
+#### WiFi の接続設定（必須部分）
+
+- WiFi の SSID とパスワードを記述する
 
     ``` cpp
     #define WIFI_SSID ""
     #define WIFI_PASSWORD ""
-    #define HOST_URL ""
     ```
 
-- WiFi で固定IPアドレスを用いる際に設定する部分（任意）
+#### WiFi で固定IPアドレスを用いる際に設定する部分（任意）
+
 - STATAIC_IP を 1 にする
 - 以下の形式で，IPアドレス，ゲートウェイ，サブネットマスクをそれぞれ設定する
 
@@ -42,4 +45,13 @@
     const IPAddress ip(192, 168, 10, 89);
     const IPAddress gateway(192, 168, 10, 1);
     const IPAddress subnet(255, 255, 255, 0);
+    ```
+
+#### サーバとの接続部分
+
+- サーバのURLを記述する
+  - 例：<https://example.com>
+
+    ``` cpp
+    #define HOST_URL ""
     ```
