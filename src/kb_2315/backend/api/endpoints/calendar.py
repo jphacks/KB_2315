@@ -16,7 +16,7 @@ def get_calendar(shoe_id: int) -> PlainTextResponse:
     JST = timezone(timedelta(hours=+9), "JST")
 
     shoe_name: str = crud_shoe.search_shoe_by(shoe_id=shoe_id)[0].name
-    sessions: list[Session] = crud_session.search_session_by(shoe_id=id)
+    sessions: list[Session] = crud_session.search_session_by(shoe_id=shoe_id)
 
     cal: Calendar = Calendar()
     cal["summary"] = f"{shoe_name} の乾燥記録"
