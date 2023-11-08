@@ -20,7 +20,7 @@ class CRUD_Shoe(base_CRUD):
 
     def search_shoe_by(
         self,
-        id: int | None = None,
+        shoe_id: int | None = None,
         name: str | None = None,
     ) -> list[Shoe]:
         with self._Session() as session:
@@ -28,8 +28,8 @@ class CRUD_Shoe(base_CRUD):
 
             if name is not None:
                 query = query.filter(Shoe.name.like(f"%{name}%"))
-            if id is not None:
-                query = query.filter(Shoe.id == id)
+            if shoe_id is not None:
+                query = query.filter(Shoe.id == shoe_id)
 
             return query.all()
 

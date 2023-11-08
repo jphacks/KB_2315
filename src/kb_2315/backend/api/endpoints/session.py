@@ -17,7 +17,7 @@ def create_session(shoe_id: int) -> schema_session.create_session:
     session_id: UUID = crud_session.add_session(shoe_id=shoe_id)
 
     try:
-        shoe_name = crud_shoe.search_shoe_by(id=shoe_id)[0].name
+        shoe_name = crud_shoe.search_shoe_by(shoe_id=shoe_id)[0].name
     except IndexError:
         pass
 
