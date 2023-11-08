@@ -142,34 +142,36 @@ void main_func() {
   }
 }
 
+void sample() {
+  Serial.println(WiFi.localIP());
+
+  drying = true;
+  json_doc["drying"] = drying;
+
+  json_doc["session_id"] = get_session_id();
+
+  for (int i = 0; i < 5; i++) {
+    RoomTemp = random(2000, 2500) / 100.00;
+    ShoeTemp = random(2000, 2500) / 100.00;
+
+    RoomHumi = random(0000, 4000) / 100.00;
+    ShoeHumi = random(4000, 10000) / 100.00;
+
+    insert_value();
+    if (i == 4) {
+      drying = false;
+      json_doc["drying"] = drying;
+    }
+    Serial.println(send_to_server(json_doc));
+
+    delay(2000);
+  }
+}
+
 void loop() {
   if (millis() - timer > update_interval_sec * 1000) {
     timer = millis();
 
-    //  以下サンプル
-    Serial.println(WiFi.localIP());
-
-    drying = true;
-    json_doc["drying"] = drying;
-
-    json_doc["session_id"] = get_session_id();
-
-    for (int i = 0; i < 5; i++) {
-      RoomTemp = random(2000, 2500) / 100.00;
-      ShoeTemp = random(2000, 2500) / 100.00;
-
-      RoomHumi = random(0000, 4000) / 100.00;
-      ShoeHumi = random(4000, 10000) / 100.00;
-
-      insert_value();
-      if (i == 4) {
-        drying = false;
-        json_doc["drying"] = drying;
-      }
-      Serial.println(send_to_server(json_doc));
-
-      delay(2000);
-    }
-    // サンプル終了
+    sample();
   }
 }
