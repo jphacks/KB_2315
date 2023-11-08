@@ -18,7 +18,7 @@ def get_calendar(shoe_id: int) -> PlainTextResponse:
     shoe_name: str = crud_shoe.search_shoe_by(shoe_id=shoe_id)[0].name
     sessions: list[Session] = crud_session.search_session_by(shoe_id=id)
 
-    cal = Calendar()
+    cal: Calendar = Calendar()
     cal["summary"] = f"{shoe_name} の乾燥記録"
     cal["scale"] = "GREGORIAN"
     cal["method"] = "PUBLISH"
@@ -29,7 +29,7 @@ def get_calendar(shoe_id: int) -> PlainTextResponse:
         try:
             last_time: datetime = crud_sensor.search_sensor_by(session_id=s.session_id)[0].time
 
-            e = Event(
+            e: Event = Event(
                 SUMMARY=f"{shoe_name} を履いた",
                 DTSTART=datetime(
                     last_time.year, last_time.month, last_time.day, time(7, 0).hour, time(7, 0).minute, tzinfo=JST
