@@ -42,10 +42,15 @@ class CRUD_Session(base_CRUD):
 
             return query.all()
 
-    def map_session_to_shoe(self, session_id: UUID, shoe_id: int) -> None:
+    def map_session_to_shoe(self, session_id: UUID, shoe_id: int) -> bool:
         with self._Session() as session:
-            session.query(Session).filter(Session.session_id == session_id).update({Session.shoe_id: shoe_id})
-            session.commit()
+            q: Session | None = session.query(Session).filter(Session.session_id == session_id).first()
+            if q and q.shoe_id is None:
+                q.shoe_id = shoe_id
+                session.commit()
+                return True
+            else:
+                return False
 
 
 crud_session = CRUD_Session()
