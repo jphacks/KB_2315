@@ -41,7 +41,7 @@ def shoe_select_carousel(send_to_id: str = conf.line_group_id, session_id: UUID 
         )
 
     carousel_template_message = TemplateSendMessage(
-        alt_text="会話ログを表示しています", template=CarouselTemplate(columns=columns_list)
+        alt_text="乾燥している靴を選んでください", template=CarouselTemplate(columns=columns_list)
     )
     line_bot_api = LineBotApi(conf.line_channel_access_token)
     line_bot_api.push_message(
