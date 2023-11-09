@@ -63,7 +63,7 @@ void setup() {
 
 String get_session_id() {
   String url =
-      String(HOST_URL) + String("/api/session/?shoe_id=") + String(DEVICE_ID);
+      String(HOST_URL) + String("/api/session/?device_id=") + String(DEVICE_ID);
   http_session.begin(url);
 
   int httpCode = http_session.GET();
