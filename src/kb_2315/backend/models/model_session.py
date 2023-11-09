@@ -18,6 +18,7 @@ class Session(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     session_id: Mapped[UUID] = mapped_column(Uuid(as_uuid=True), default=uuid.uuid4, unique=True, nullable=False)
 
+    device_id: Mapped[int] = mapped_column(Integer, nullable=False)
     shoe_id: Mapped[int | None] = mapped_column(Integer, ForeignKey("shoe.id"), nullable=True)
 
     sensors: Mapped[list[Sensor]] = relationship("Sensor", backref="event")

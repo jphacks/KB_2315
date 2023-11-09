@@ -15,7 +15,7 @@ except IndexError:
 
 
 resp: schema_session.create_session = schema_session.create_session.model_validate(
-    obj=requests.get(f"{conf.host_url}/session/?shoe_id={device_id}").json()
+    obj=requests.get(f"{conf.host_url}/session/?device_id={device_id}").json()
 )
 
 str_sesison_id = str(resp.session_id)
