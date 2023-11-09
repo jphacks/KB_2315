@@ -22,10 +22,7 @@ def send_message(
     )
 
 
-def send_carousel(
-    channel_access_token: str = conf.line_channel_access_token,
-    send_to_id: str = conf.line_group_id,
-) -> None:
+def shoe_select_carousel(send_to_id: str = conf.line_group_id, session_id: UUID | None = None) -> None:
     columns_list: list[CarouselColumn] = []
     columns_list.append(
         CarouselColumn(
