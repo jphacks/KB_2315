@@ -12,10 +12,9 @@ from kb_2315.config import conf
 
 def send_message(
     message: str,
-    channel_access_token: str = conf.line_channel_access_token,
     send_to_id: str = conf.line_group_id,
 ) -> None:
-    line_bot_api = LineBotApi(channel_access_token)
+    line_bot_api = LineBotApi(conf.line_channel_access_token)
     line_bot_api.push_message(
         to=send_to_id,
         messages=TextSendMessage(text=message),
@@ -46,7 +45,7 @@ def shoe_select_carousel(send_to_id: str = conf.line_group_id, session_id: UUID 
     carousel_template_message = TemplateSendMessage(
         alt_text="会話ログを表示しています", template=CarouselTemplate(columns=columns_list)
     )
-    line_bot_api = LineBotApi(channel_access_token)
+    line_bot_api = LineBotApi(conf.line_channel_access_token)
     line_bot_api.push_message(
         to=send_to_id,
         messages=carousel_template_message,
