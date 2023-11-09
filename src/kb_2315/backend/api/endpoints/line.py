@@ -45,11 +45,16 @@ async def handle_callback(request: Request) -> Literal["OK"]:
         raise HTTPException(status_code=400, detail="Invalid signature")
 
     for event in events:
-        print(type(event))
+        return_id: str | None = None
 
-        print(cast(Source, event.source).type)
-        print(event.source)
-
-        notify.line.send_message(message="sample message")
+        match (event_source := cast(Source, event.source)).type:
+            case "user":
+                return_id = event_source.user_id  # type: ignore
+            case "group":
+                return_id = event_source.group_id  # type: ignore
+            case "room":
+                return_id = event_source.room_id  # type: ignore
+        if return_id is None:
+            continue
 
     return "OK"
