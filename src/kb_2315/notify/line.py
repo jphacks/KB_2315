@@ -1,3 +1,4 @@
+from uuid import UUID
 from linebot import LineBotApi
 from linebot.models import (
     CarouselColumn,
@@ -6,6 +7,8 @@ from linebot.models import (
     TemplateSendMessage,
     TextSendMessage,
 )
+from kb_2315.backend.crud import crud_shoe
+from kb_2315.backend.models import Shoe
 
 from kb_2315.config import conf
 
@@ -23,25 +26,19 @@ def send_message(
 
 def shoe_select_carousel(send_to_id: str = conf.line_group_id, session_id: UUID | None = None) -> None:
     columns_list: list[CarouselColumn] = []
-    columns_list.append(
-        CarouselColumn(
-            title="タイトルだよ",
-            text="よろしくね",
-            thumbnail_image_url="https://picsum.photos/200/300",
-            actions=[
-                PostbackAction(label="詳細を表示", data="詳細表示"),
-            ],
+    shoes: list[Shoe] = crud_shoe.search_shoe_by()
+
+    for i, shoe in enumerate(shoes):
+        columns_list.append(
+            CarouselColumn(
+                text=f"靴 {shoe.name}",
+                thumbnail_image_url=f"https://picsum.photos/200/{300+i}",
+                actions=[
+                    PostbackAction(label=f"{shoe.name} を選ぶ", data=f"{shoe.id}:{session_id}"),
+                ],
+            )
         )
-    )
-    columns_list.append(
-        CarouselColumn(
-            title="タイトルだよ",
-            text="よろしくね",
-            actions=[
-                PostbackAction(label="詳細を表示", data="詳細表示"),
-            ],
-        )
-    )
+
     carousel_template_message = TemplateSendMessage(
         alt_text="会話ログを表示しています", template=CarouselTemplate(columns=columns_list)
     )
