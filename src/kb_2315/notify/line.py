@@ -1,4 +1,5 @@
 from uuid import UUID
+
 from linebot import LineBotApi
 from linebot.models import (
     CarouselColumn,
@@ -7,9 +8,9 @@ from linebot.models import (
     TemplateSendMessage,
     TextSendMessage,
 )
+
 from kb_2315.backend.crud import crud_shoe
 from kb_2315.backend.models import Shoe
-
 from kb_2315.config import conf
 
 
