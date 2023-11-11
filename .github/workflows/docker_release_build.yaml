@@ -55,8 +55,8 @@ jobs:
           push: true
           # platforms: linux/amd64,linux/arm64
           tags: |
-            ${{ env.REGISTRY }}/motty-mio2/kb_2315/base:latest
-            ${{ env.REGISTRY }}/motty-mio2/kb_2315/base:${{ steps.build_version.outputs.VERSION }}
+            ${{ env.REGISTRY }}/jphacks/kb_2315/base:latest
+            ${{ env.REGISTRY }}/jphacks/kb_2315/base:${{ steps.build_version.outputs.VERSION }}
 
       - name: replace base version
         run: |
@@ -72,8 +72,8 @@ jobs:
           push: true
           # platforms: linux/amd64,linux/arm64
           tags: |
-            ${{ env.REGISTRY }}/motty-mio2/kb_2315/alembic:latest
-            ${{ env.REGISTRY }}/motty-mio2/kb_2315/alembic:${{ steps.build_version.outputs.VERSION }}
+            ${{ env.REGISTRY }}/jphacks/kb_2315/alembic:latest
+            ${{ env.REGISTRY }}/jphacks/kb_2315/alembic:${{ steps.build_version.outputs.VERSION }}
 
       - name: Build FastAPI image
         uses: docker/build-push-action@v5
@@ -83,8 +83,8 @@ jobs:
           push: true
           # platforms: linux/amd64,linux/arm64
           tags: |
-            ${{ env.REGISTRY }}/motty-mio2/kb_2315/app:latest
-            ${{ env.REGISTRY }}/motty-mio2/kb_2315/app:${{ steps.build_version.outputs.VERSION }}
+            ${{ env.REGISTRY }}/jphacks/kb_2315/app:latest
+            ${{ env.REGISTRY }}/jphacks/kb_2315/app:${{ steps.build_version.outputs.VERSION }}
 
       - name: Build Streamlit image
         uses: docker/build-push-action@v5
@@ -94,5 +94,5 @@ jobs:
           push: true
           # platforms: linux/amd64,linux/arm64
           tags: |
-            ${{ env.REGISTRY }}/motty-mio2/kb_2315/graph:latest
-            ${{ env.REGISTRY }}/motty-mio2/kb_2315/graph:${{ steps.build_version.outputs.VERSION }}
+            ${{ env.REGISTRY }}/jphacks/kb_2315/graph:latest
+            ${{ env.REGISTRY }}/jphacks/kb_2315/graph:${{ steps.build_version.outputs.VERSION }}
