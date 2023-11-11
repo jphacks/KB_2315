@@ -1,4 +1,4 @@
-FROM python:3.11-slim as base
+FROM python:3.11-slim
 
 WORKDIR /src
 COPY ../requirements.lock ../pyproject.toml ../README.md /src/
