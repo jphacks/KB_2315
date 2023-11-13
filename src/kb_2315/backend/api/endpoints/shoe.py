@@ -10,6 +10,6 @@ router = APIRouter()
 
 @router.get("/")
 def search_shoe(id: int | None = None, name: str | None = None) -> list[schema_shoe.shoe]:
-    shoes: list[Shoe] = crud_shoe.search_shoe_by(id=id, name=name)
+    shoes: list[Shoe] = crud_shoe.search_shoe_by(shoe_id=id, name=name)
 
     return [schema_shoe.shoe(id=s.id, name=s.name) for s in shoes]
