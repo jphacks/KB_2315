@@ -1,0 +1,20 @@
+FROM ghcr.io/motty-mio2/kb_2315/base:master as base
+
+WORKDIR /src
+COPY ../. /src/
+
+ARG UID=1000
+ARG GID=1000
+
+RUN pip install -e . --no-cache-dir
+
+USER dev
+
+CMD  ["streamlit", "run", "./src/graph.py", \
+    "--browser.gatherUsageStats=false", \
+    "--server.address=0.0.0.0", \
+    "--server.baseUrlPath=analyze", \
+    "--server.port=8501", \
+    "--server.enableCORS=false", \
+    "--server.enableXsrfProtection=false" \
+    ]
