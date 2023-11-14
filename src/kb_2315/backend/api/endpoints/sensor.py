@@ -31,7 +31,7 @@ def search_shoe(item: schema_sensor.sensor) -> None:
             shoe_id: int | None = crud_session.search_session_by(session_id=uuid)[0].shoe_id
 
             try:
-                shoe_name = crud_shoe.search_shoe_by(id=shoe_id)[0].name
+                shoe_name = crud_shoe.search_shoe_by(shoe_id=shoe_id)[0].name
             except IndexError:
                 pass
 

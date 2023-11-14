@@ -14,8 +14,6 @@ router = APIRouter()
 def create_session(device_id: int) -> schema_session.create_session:
     session_id: UUID = crud_session.add_session(device_id=device_id)
 
-    notify.line.send_message(
-        message="靴 の乾燥を開始します",
-    )
+    notify.line.shoe_select_carousel(session_id=session_id)
 
     return schema_session.create_session(session_id=session_id)
