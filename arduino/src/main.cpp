@@ -23,7 +23,7 @@ QMP6988 hatqmp6988;
 UNIT_HBRIDGE driver;
 
 
-const int update_interval_sec = 30;
+const int update_interval_sec = 10;
 
 bool drying = false;
 
@@ -141,7 +141,7 @@ void insert_value() {
 }
 
 bool is_drying() {
-  if (abs(ShoeTemp - RoomTemp) < GAP_TEMP && (ShoeHumi - RoomHumi) > GAP_HUM) {
+  if (abs(ShoeTemp - RoomTemp) > GAP_TEMP && (ShoeHumi - RoomHumi) > GAP_HUM) {
     return true;
   } else {
     return false;
