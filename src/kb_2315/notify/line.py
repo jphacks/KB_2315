@@ -1,6 +1,7 @@
 from uuid import UUID
 
 from linebot import LineBotApi
+from linebot.exceptions import LineBotApiError
 from linebot.models import (
     CarouselColumn,
     CarouselTemplate,
@@ -19,10 +20,14 @@ def send_message(
     send_to_id: str = conf.line_group_id,
 ) -> None:
     line_bot_api = LineBotApi(conf.line_channel_access_token)
-    line_bot_api.push_message(
-        to=send_to_id,
-        messages=TextSendMessage(text=message),
-    )
+
+    try:
+        line_bot_api.push_message(
+            to=send_to_id,
+            messages=TextSendMessage(text=message),
+        )
+    except LineBotApiError as e:
+        print(f"LineBotApiError: {e}")
 
 
 def shoe_select_carousel(send_to_id: str = conf.line_group_id, session_id: UUID | None = None) -> None:
@@ -44,7 +49,11 @@ def shoe_select_carousel(send_to_id: str = conf.line_group_id, session_id: UUID 
         alt_text="乾燥している靴を選んでください", template=CarouselTemplate(columns=columns_list)
     )
     line_bot_api = LineBotApi(conf.line_channel_access_token)
-    line_bot_api.push_message(
-        to=send_to_id,
-        messages=carousel_template_message,
-    )
+
+    try:
+        line_bot_api.push_message(
+            to=send_to_id,
+            messages=carousel_template_message,
+        )
+    except LineBotApiError as e:
+        print(f"LineBotApiError: {e}")
