@@ -29,11 +29,11 @@ def shoe_select_carousel(send_to_id: str = conf.line_group_id, session_id: UUID 
     columns_list: list[CarouselColumn] = []
     shoes: list[Shoe] = crud_shoe.search_shoe_by()
 
-    for i, shoe in enumerate(shoes):
+    for shoe in shoes:
         columns_list.append(
             CarouselColumn(
                 text=f"靴 {shoe.name}",
-                thumbnail_image_url=f"https://picsum.photos/200/{300+i}",
+                thumbnail_image_url=shoe.image_url,
                 actions=[
                     PostbackAction(label=f"{shoe.name} を選ぶ", data=f"{shoe.id}:{session_id}"),
                 ],
