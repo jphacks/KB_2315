@@ -1,0 +1,3 @@
+FROM nginx:1.25
+
+COPY ./imagestore/nginx.conf /etc/nginx/conf.d/
