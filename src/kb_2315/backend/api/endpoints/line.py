@@ -74,9 +74,7 @@ async def handle_callback(request: Request) -> Literal["OK"]:
                     send_to_id=return_id,
                 )
         else:
-            notify.line.send_message(
-                message="hello",
-                send_to_id=return_id,
-            )
+            # 普通に話しかけらた
+            pass
 
     return "OK"
