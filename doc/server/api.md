@@ -26,22 +26,30 @@
         "external_humidity": 20.0,// 外気湿度
         "interlnal_temperature": 20.0, // 靴内温度
         "interlnal_humidity": 20.0,// 靴内湿度
-        "drying": 0, // 乾燥状態: true / false
+        "drying": 0, // 乾燥状態: bool
     }
-    
     ```
 
-""
-
 ## /api/session
+
+- セッション関係のAPI
+
+### /api/session GET
 
 - セッション発行用API
   - エッジデバイスからの要求を想定
   - セッションIDを発行し，Lineに靴の乾燥の旨を通知
   - `/api/session/?device_id=1`
+  - device_id: required | int
 
 ## /api/shoe
+
+- 靴関係のAPI
+
+### /api/shoe GET
 
 - 靴検索用API
   - 靴のid と靴の名前（部分一致）で可能
   - `/api/shoe/?id=1?name=靴`
+  - id: optional | int
+  - name: optional | string
