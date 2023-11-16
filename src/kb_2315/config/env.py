@@ -3,7 +3,6 @@ from dataclasses import dataclass
 
 @dataclass()
 class env:
-    client_ip: str = ""
     line_channel_access_token: str = ""
     line_channel_secret: str = ""
     line_group_id: str = ""
