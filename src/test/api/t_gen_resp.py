@@ -18,9 +18,9 @@ resp: schema_session.create_session = schema_session.create_session.model_valida
     obj=requests.get(f"{conf.host_url}/session/?device_id={device_id}").json()
 )
 
-str_sesison_id = str(resp.session_id)
+str_session_id = str(resp.session_id)
 
-print(device_id, str_sesison_id)
+print(device_id, str_session_id)
 
 it = 3
 
@@ -28,7 +28,7 @@ for i in range(it):
     requests.post(
         url=f"{conf.host_url}/sensor/",
         json=schema_sensor.sensor(
-            session_id=str_sesison_id,
+            session_id=str_session_id,
             device_id=device_id,
             external_temperature=random() * 30,
             external_humidity=random() * 100,

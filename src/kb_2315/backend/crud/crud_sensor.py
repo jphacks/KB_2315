@@ -17,7 +17,7 @@ class CRUD_Sensor(base_CRUD):
         internal_temperature: float,
         internal_humidity: float,
         drying: bool,
-        sesison_id: UUID,
+        session_id: UUID,
     ) -> None:
         with self._Session() as session:
             new_sensor = Sensor()
@@ -26,7 +26,7 @@ class CRUD_Sensor(base_CRUD):
             new_sensor.external_humidity = external_humidity
             new_sensor.internal_temperature = internal_temperature
             new_sensor.internal_humidity = internal_humidity
-            new_sensor.session_id = sesison_id
+            new_sensor.session_id = session_id
             new_sensor.drying = drying
 
             session.add(new_sensor)
