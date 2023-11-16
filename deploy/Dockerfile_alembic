@@ -1,4 +1,4 @@
-FROM ghcr.io/motty-mio2/kb_2315/base:master as base
+FROM ghcr.io/jphacks/kb_2315/base:master as base
 
 WORKDIR /src
 COPY ../. /src/
