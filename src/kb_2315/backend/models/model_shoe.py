@@ -9,5 +9,6 @@ from .model_session import Session
 class Shoe(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     name: Mapped[str] = mapped_column(String, default="Shoe")
+    image_url: Mapped[str] = mapped_column(String, nullable=True)
 
     sessions: Mapped[list[Session]] = relationship("Session", backref="event")
