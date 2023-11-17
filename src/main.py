@@ -5,6 +5,7 @@ import kb_2315.config as config
 from kb_2315.backend.api.router import api_router
 from kb_2315.notify import line_rich_menu
 
+
 conf: config.env = config.read_config(dir=config.root_dir)
 
 app = FastAPI(
