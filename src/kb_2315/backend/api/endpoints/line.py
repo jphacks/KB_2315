@@ -64,18 +64,23 @@ async def handle_callback(request: Request) -> Literal["OK"]:
 
         if event.type == "postback":
             pbdata: str = event.postback.data  # type: ignore
-            shoe_id, session_id = pbdata.split(":")
 
-            if crud_session.map_session_to_shoe(UUID(session_id), int(shoe_id)):
-                notify.line.send_message(
-                    message="選択を保存しました",
-                    send_to_id=return_id,
-                )
+            if pbdata == "shoes_list":
+                notify.line.shoe_list_carousel()
+
             else:
-                notify.line.send_message(
-                    message="選択済みです",
-                    send_to_id=return_id,
-                )
+                shoe_id, session_id = pbdata.split(":")
+
+                if crud_session.map_session_to_shoe(UUID(session_id), int(shoe_id)):
+                    notify.line.send_message(
+                        message="選択を保存しました",
+                        send_to_id=return_id,
+                    )
+                else:
+                    notify.line.send_message(
+                        message="選択済みです",
+                        send_to_id=return_id,
+                    )
         else:
             # 普通に話しかけらた
             pass
