@@ -21,7 +21,7 @@ def search_shoe(item: schema_sensor.sensor) -> None:
             external_humidity=item.external_humidity,
             internal_temperature=item.internal_temperature,
             internal_humidity=item.internal_humidity,
-            sesison_id=uuid,
+            session_id=uuid,
             drying=item.drying,
         )
 
