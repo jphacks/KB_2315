@@ -12,7 +12,7 @@ router = APIRouter()
 
 
 @router.get("/")
-def get_calendar(shoe_id: int | None) -> PlainTextResponse:
+def get_calendar(shoe_id: int | None = None) -> PlainTextResponse:
     JST = timezone(timedelta(hours=+9), "JST")
 
     if shoe_id is None:
