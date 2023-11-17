@@ -47,7 +47,7 @@ class CRUD_Sensor(base_CRUD):
                 query = query.filter(Sensor.device_id == id)
 
             if session_id is not None:
-                if type(session_id) is str:
+                if isinstance(session_id, str):
                     query = query.filter(Sensor.session_id == UUID(session_id))
                 else:
                     query = query.filter(Sensor.session_id == session_id)
