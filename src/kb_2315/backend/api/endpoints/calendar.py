@@ -12,11 +12,15 @@ router = APIRouter()
 
 
 @router.get("/")
-def get_calendar(shoe_id: int) -> PlainTextResponse:
+def get_calendar(shoe_id: int | None) -> PlainTextResponse:
     JST = timezone(timedelta(hours=+9), "JST")
 
-    shoe_name: str = crud_shoe.search_shoe_by(shoe_id=shoe_id)[0].name
-    sessions: list[Session] = crud_session.search_session_by(shoe_id=shoe_id)
+    if shoe_id is None:
+        shoe_name: str = "靴"
+        sessions: list[Session] = crud_session.search_session_by()
+    else:
+        shoe_name = crud_shoe.search_shoe_by(shoe_id=shoe_id)[0].name
+        sessions = crud_session.search_session_by(shoe_id=shoe_id)
 
     cal: Calendar = Calendar()
     cal["summary"] = f"{shoe_name} の乾燥記録"
@@ -30,7 +34,7 @@ def get_calendar(shoe_id: int) -> PlainTextResponse:
             last_time: datetime = crud_sensor.search_sensor_by(session_id=s.session_id)[0].time
 
             e: Event = Event(
-                SUMMARY=f"{shoe_name} を履いた",
+                SUMMARY=f"{crud_shoe.search_shoe_by(shoe_id= s.shoe_id)[0].name} を履いた",
                 DTSTART=datetime(
                     last_time.year, last_time.month, last_time.day, time(7, 0).hour, time(7, 0).minute, tzinfo=JST
                 )
