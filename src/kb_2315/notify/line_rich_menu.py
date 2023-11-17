@@ -23,7 +23,7 @@ def create_rich_menu() -> None:
                 action=URIAction(
                     uri="https://larrybolt.github.io/online-ics-feed-viewer/"
                     + f"#feed={conf.host_url}/api/calendar/"
-                    + "%3Fshoe_id%3D1&cors=false&title=My%20Feed&hideinput=false",
+                    + "&cors=false&title=Shoe History&hideinput=true",
                     label="カレンダーの表示",
                 ),
             ),
