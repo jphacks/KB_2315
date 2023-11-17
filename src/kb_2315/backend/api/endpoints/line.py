@@ -56,8 +56,11 @@ async def handle_callback(request: Request) -> Literal["OK"]:
                 return_id = event_source.group_id  # type: ignore
             case "room":
                 return_id = event_source.room_id  # type: ignore
+
         if return_id is None:
             continue
+        else:
+            print(f"Return ID : {return_id}")
 
         if event.type == "postback":
             pbdata: str = event.postback.data  # type: ignore

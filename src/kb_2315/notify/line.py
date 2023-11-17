@@ -27,7 +27,7 @@ def send_message(
             messages=TextSendMessage(text=message),
         )
     except LineBotApiError as e:
-        print(f"LineBotApiError: {e}")
+        print(f"Send Message Error:\n{e}")
 
 
 def shoe_select_carousel(send_to_id: str = conf.line_group_id, session_id: UUID | None = None) -> None:
@@ -56,4 +56,4 @@ def shoe_select_carousel(send_to_id: str = conf.line_group_id, session_id: UUID 
             messages=carousel_template_message,
         )
     except LineBotApiError as e:
-        print(f"LineBotApiError: {e}")
+        print(f"Select Shoe Carousel Error:\n{e}")
