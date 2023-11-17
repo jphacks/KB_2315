@@ -10,7 +10,7 @@ from linebot.v3.webhooks.models.message_event import MessageEvent
 from linebot.v3.webhooks.models.source import Source
 
 from kb_2315 import notify
-from kb_2315.backend.crud import crud_session
+from kb_2315.backend.crud import crud_session, crud_user
 from kb_2315.config import conf
 
 
@@ -90,6 +90,8 @@ async def handle_callback(request: Request) -> Literal["OK"]:
                 pass
         else:
             # 普通に話しかけらた
-            pass
+            if em := event.message:
+                if em.text == "hack":  # type: ignore
+                    crud_user.set_line_channel_id_by_user_id(user_id=1, line_channel_id=return_id)
 
     return "OK"
