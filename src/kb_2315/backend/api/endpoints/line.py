@@ -65,11 +65,16 @@ async def handle_callback(request: Request) -> Literal["OK"]:
         if event.type == "postback":
             pbdata: str = event.postback.data  # type: ignore
 
-            if pbdata == "shoes_list":
+            try:
+                pbheader: str = pbdata.split(":")[0]
+            except Exception:
+                pbheader = ""
+
+            if pbheader == "shoes_list":
                 notify.line.shoe_list_carousel()
 
-            else:
-                shoe_id, session_id = pbdata.split(":")
+            elif pbheader == "shoes_select":
+                _, shoe_id, session_id = pbdata.split(":")
 
                 if crud_session.map_session_to_shoe(UUID(session_id), int(shoe_id)):
                     notify.line.send_message(
@@ -81,6 +86,8 @@ async def handle_callback(request: Request) -> Literal["OK"]:
                         message="選択済みです",
                         send_to_id=return_id,
                     )
+            else:
+                pass
         else:
             # 普通に話しかけらた
             pass
