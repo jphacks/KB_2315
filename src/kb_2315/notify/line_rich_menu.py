@@ -12,25 +12,30 @@ line_bot_api = LineBotApi(conf.line_channel_access_token)
 
 def create_rich_menu() -> None:
     rich_menu_to_create = RichMenu(
-        size=RichMenuSize(width=1200, height=810),
+        size=RichMenuSize(width=1200, height=800),
         selected=True,
         name="richmenu",
         chat_bar_text="メニュー",
         areas=[
             # カレンダー
             RichMenuArea(
-                bounds=RichMenuBounds(x=0, y=0, width=600, height=810),
-                action=URIAction(uri=f"{conf.host_url}/api/calendar/", label="カレンダーの表示"),
+                bounds=RichMenuBounds(x=0, y=0, width=600, height=800),
+                action=URIAction(
+                    uri="https://larrybolt.github.io/online-ics-feed-viewer/"
+                    + f"#feed={conf.host_url}/api/calendar/"
+                    + "%3Fshoe_id%3D1&cors=false&title=My%20Feed&hideinput=false",
+                    label="カレンダーの表示",
+                ),
             ),
             # データ
             RichMenuArea(
-                bounds=RichMenuBounds(x=0, y=405, width=600, height=405),
+                bounds=RichMenuBounds(x=600, y=0, width=600, height=400),
                 action=URIAction(uri=f"{conf.host_url}/analyze/", label="データの表示"),
             ),
             # 靴一覧
             RichMenuArea(
-                bounds=RichMenuBounds(x=600, y=405, width=600, height=405),
-                action=PostbackAction(data="shoes_list"),
+                bounds=RichMenuBounds(x=600, y=400, width=600, height=400),
+                action=PostbackAction(data="shoes_list:"),
             ),
         ],
     )
