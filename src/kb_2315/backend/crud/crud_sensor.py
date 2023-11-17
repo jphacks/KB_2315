@@ -36,7 +36,7 @@ class CRUD_Sensor(base_CRUD):
         self,
         id: int | None = None,
         device_id: str | None = None,
-        session_id: UUID | None = None,
+        session_id: UUID | str | None = None,
     ) -> list[Sensor]:
         with self._Session() as session:
             query: Query[Sensor] = session.query(Sensor)
@@ -47,7 +47,10 @@ class CRUD_Sensor(base_CRUD):
                 query = query.filter(Sensor.device_id == id)
 
             if session_id is not None:
-                query = query.filter(Sensor.session_id == session_id)
+                if type(session_id) is str:
+                    query = query.filter(Sensor.session_id == UUID(session_id))
+                else:
+                    query = query.filter(Sensor.session_id == session_id)
 
             ret: list[Sensor] = query.all()
 
