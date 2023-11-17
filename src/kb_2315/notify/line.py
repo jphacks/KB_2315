@@ -14,6 +14,7 @@ from kb_2315.backend.crud import crud_shoe, crud_user
 from kb_2315.backend.models import Shoe
 from kb_2315.config import conf
 
+
 line_channel_id: str = crud_user.search_user_by()[0].line_channel_id
 
 
