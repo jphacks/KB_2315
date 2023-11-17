@@ -5,7 +5,6 @@ from dataclasses import dataclass
 class env:
     line_channel_access_token: str = ""
     line_channel_secret: str = ""
-    line_group_id: str = ""
     host_url: str = ""
 
     USE_EXTERNAL_DB: bool = False
