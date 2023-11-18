@@ -8,6 +8,7 @@ from linebot.models import (
     PostbackAction,
     TemplateSendMessage,
     TextSendMessage,
+    URIAction,
 )
 
 from kb_2315.backend.crud import crud_shoe, crud_user
@@ -17,8 +18,11 @@ from kb_2315.config import conf
 
 def send_message(
     message: str,
-    send_to_id: str = crud_user.search_user_by()[0].line_channel_id,
+    send_to_id: str | None = None,
 ) -> None:
+    if send_to_id is None:
+        send_to_id = crud_user.search_user_by()[0].line_channel_id
+
     line_bot_api = LineBotApi(conf.line_channel_access_token)
 
     try:
@@ -30,7 +34,10 @@ def send_message(
         print(f"Send Message Error:\n{e}")
 
 
-def shoe_list_carousel(send_to_id: str = crud_user.search_user_by()[0].line_channel_id) -> None:
+def shoe_list_carousel(send_to_id: str | None = None) -> None:
+    if send_to_id is None:
+        send_to_id = crud_user.search_user_by()[0].line_channel_id
+
     columns_list: list[CarouselColumn] = []
     shoes: list[Shoe] = crud_shoe.search_shoe_by()
 
@@ -39,9 +46,7 @@ def shoe_list_carousel(send_to_id: str = crud_user.search_user_by()[0].line_chan
             CarouselColumn(
                 text=f"靴 {shoe.name}",
                 thumbnail_image_url=shoe.image_url,
-                actions=[
-                    PostbackAction(label=f"{shoe.name} を選ぶ", data=" :"),
-                ],
+                actions=[URIAction(uri=f"{conf.host_url}/analyze/?shoe_id={shoe.id}", label="データの表示")],
             )
         )
 
