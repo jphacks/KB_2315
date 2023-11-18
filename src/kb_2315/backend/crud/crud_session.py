@@ -2,17 +2,19 @@ from uuid import UUID
 
 from sqlalchemy.orm import Query
 
-from kb_2315.backend.models import Session
+from kb_2315.backend.models import Session, User
+from kb_2315.backend.weather import api as weather_api
 
 from .base_crud import base_CRUD
 
 
 class CRUD_Session(base_CRUD):
-    def add_session(self, device_id: int, shoe_id: int | None = None) -> UUID:
+    def add_session(self, user: User, device_id: int, shoe_id: int | None = None) -> UUID:
         with self._Session() as session:
             new_session = Session()
             new_session.shoe_id = shoe_id
             new_session.device_id = device_id
+            new_session.weather_code = weather_api.get_weather_code(user.ido_longitude, user.keido_latitude)
 
             session.add(new_session)
             session.commit()
