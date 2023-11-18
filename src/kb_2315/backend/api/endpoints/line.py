@@ -10,7 +10,8 @@ from linebot.v3.webhooks.models.message_event import MessageEvent
 from linebot.v3.webhooks.models.source import Source
 
 from kb_2315 import notify
-from kb_2315.backend.crud import crud_session, crud_user
+from kb_2315.backend.crud import crud_session, crud_shoe, crud_user
+from kb_2315.backend.models.model_shoe import Shoe
 from kb_2315.config import conf
 
 
@@ -77,10 +78,14 @@ async def handle_callback(request: Request) -> Literal["OK"]:
                 _, shoe_id, session_id = pbdata.split(":")
 
                 if crud_session.map_session_to_shoe(UUID(session_id), int(shoe_id)):
-                    notify.line.send_message(
-                        message="選択を保存しました",
-                        send_to_id=return_id,
-                    )
+                    shoes: list[Shoe] = crud_shoe.search_shoe_by(shoe_id=int(shoe_id))
+
+                    if len(shoes) > 0:
+                        notify.line.send_message(
+                            message=f"{shoes[0].name} を選択しました",
+                            send_to_id=return_id,
+                        )
+
                 else:
                     notify.line.send_message(
                         message="選択済みです",
