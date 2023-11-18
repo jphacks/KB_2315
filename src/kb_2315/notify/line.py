@@ -15,12 +15,9 @@ from kb_2315.backend.models import Shoe
 from kb_2315.config import conf
 
 
-line_channel_id: str = crud_user.search_user_by()[0].line_channel_id
-
-
 def send_message(
     message: str,
-    send_to_id: str = line_channel_id,
+    send_to_id: str = crud_user.search_user_by()[0].line_channel_id,
 ) -> None:
     line_bot_api = LineBotApi(conf.line_channel_access_token)
 
@@ -33,7 +30,7 @@ def send_message(
         print(f"Send Message Error:\n{e}")
 
 
-def shoe_list_carousel(send_to_id: str = line_channel_id) -> None:
+def shoe_list_carousel(send_to_id: str = crud_user.search_user_by()[0].line_channel_id) -> None:
     columns_list: list[CarouselColumn] = []
     shoes: list[Shoe] = crud_shoe.search_shoe_by()
 
@@ -62,7 +59,10 @@ def shoe_list_carousel(send_to_id: str = line_channel_id) -> None:
         print(f"LineBotApiError: {e}")
 
 
-def shoe_select_carousel(send_to_id: str = line_channel_id, session_id: UUID | None = None) -> None:
+def shoe_select_carousel(
+    send_to_id: str = crud_user.search_user_by()[0].line_channel_id,
+    session_id: UUID | None = None,
+) -> None:
     columns_list: list[CarouselColumn] = []
     shoes: list[Shoe] = crud_shoe.search_shoe_by()
 
