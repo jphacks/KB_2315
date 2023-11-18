@@ -1,8 +1,9 @@
 import uuid
+from datetime import datetime
 from typing import TYPE_CHECKING
 from uuid import UUID
 
-from sqlalchemy import ForeignKey, Integer, Uuid
+from sqlalchemy import DateTime, ForeignKey, Integer, Uuid
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from kb_2315.backend.db.base import Base
@@ -20,5 +21,8 @@ class Session(Base):
 
     device_id: Mapped[int] = mapped_column(Integer, nullable=False)
     shoe_id: Mapped[int | None] = mapped_column(Integer, ForeignKey("shoe.id"), nullable=True)
+
+    weather_code: Mapped[int] = mapped_column(Integer, nullable=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, nullable=False)
 
     sensors: Mapped[list[Sensor]] = relationship("Sensor", backref="event")
