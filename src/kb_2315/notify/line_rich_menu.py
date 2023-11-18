@@ -11,6 +11,11 @@ line_bot_api = LineBotApi(conf.line_channel_access_token)
 
 
 def create_rich_menu() -> None:
+    cal_url = "https://larrybolt.github.io/online-ics-feed-viewer/" \
+            + f"#feed={conf.host_url}/api/calendar/" \
+            + "&cors=false&title=Shoe%20History&hideinput=true"
+    print(cal_url)
+
     rich_menu_to_create = RichMenu(
         size=RichMenuSize(width=1200, height=800),
         selected=True,
@@ -21,9 +26,7 @@ def create_rich_menu() -> None:
             RichMenuArea(
                 bounds=RichMenuBounds(x=0, y=0, width=600, height=800),
                 action=URIAction(
-                    uri="https://larrybolt.github.io/online-ics-feed-viewer/"
-                    + f"#feed={conf.host_url}/api/calendar/"
-                    + "&cors=false&title=Shoe History&hideinput=true",
+                    uri=cal_url,
                     label="カレンダーの表示",
                 ),
             ),
@@ -46,3 +49,4 @@ def create_rich_menu() -> None:
         line_bot_api.set_rich_menu_image(richMenuId, "image/png", f)
 
     line_bot_api.set_default_rich_menu(richMenuId)
+
